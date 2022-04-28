@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+:root{
+    --main-color:rgb(255 254 244);
+    --second-color:#B0A171;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--main-color);
+}
+.banner .swiper{
+    height: 100% !important;
+}
+.product-list  .swiper-slide{
+    width: 300px !important; 
+    height:auto
+}
+.product-list .swiper-slide{
+    margin-right: 15px !important;
+}
