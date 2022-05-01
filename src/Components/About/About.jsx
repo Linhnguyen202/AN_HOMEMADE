@@ -2,8 +2,8 @@ import React from 'react';
 
 const About = () => {
     return (
-        <div className='flex items-center gap-x-4 max-w-[1200px] m-auto '>
-            <div className='p-5 text-center w-[50%]'>
+        <div className='flex items-center gap-x-4 max-w-[1200px] m-auto md:flex-row flex-col-reverse gap-y-5'>
+            <div className='p-5 text-center md:w-[50%]'>
                 <h3 className='mb-5 text-5xl text-secondColor'>About Us</h3>
                 <p className='text-sm'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia magni, 
                 eum vel illo autem labore modi ab vitae, est doloribus aliquam ducimus. 

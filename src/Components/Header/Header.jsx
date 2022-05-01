@@ -24,7 +24,7 @@ const Header = () => {
     })
     console.log(scroll)
     return (
-        <div className={`top-0 z-50 text-sm transition-colors duration-300 flex items-center justify-between w-full   p-4  uppercase ${checkLocate ? "fixed text-white" : "relative text-black border bg-white mb-20"} ${scroll && location.pathname === "/" ? "bg-[#B0A171]" : "bg-transparent"}`} >
+        <div className={`top-0 z-50 text-sm transition-colors duration-300 flex items-center justify-between w-full   p-4  uppercase ${checkLocate ? "fixed text-white" : "relative text-black border bg-white mb-20"} ${scroll && location.pathname === "/" ? "bg-[#B0A171] shadow-2xl rounded-b-2xl" : "bg-transparent"}`} >
              <div className="flex items-center gap-x-4">                 
                 <img className="w-10 h-10" src="https://lh5.googleusercontent.com/-zIDhfNZhvFa7bmUpA4PKw6EvjIPh4hh8_IYGa-Is6GzVJTEDMG4qKIgfyyDusGqYs9UfIAO_W0TyYaqiUiA7Ck=w16383" alt="" />
                 <h3 className='hidden text-white md:block'>AN_HOMEMADE</h3>

@@ -20,3 +20,6 @@ body{
 .product-list .swiper-slide{
     margin-right: 15px !important;
 }
+.banner-text{
+    text-shadow: 12px 12px 0px rgba(0,0,0,0.3);
+}
