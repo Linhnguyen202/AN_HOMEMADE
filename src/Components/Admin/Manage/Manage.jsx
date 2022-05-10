@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuth } from '../../../context/authContext';
 import ContentManage from './ContentManage';
 
 const Manage = () => {
@@ -12,7 +13,8 @@ const Manage = () => {
 
 export default Manage;
 
-const ManageHead = ()=>{
+const ManageHead = ()=>{   
+    const userName = JSON.parse(sessionStorage.getItem("UserLogged"));
     return (
         <div className='flex items-center justify-between px-5 py-3 bg-secondColor'>
             <div className="flex items-center gap-x-4">                 
@@ -20,7 +22,7 @@ const ManageHead = ()=>{
                 <h3 className='text-white '>AN_HOMEMADE</h3>
             </div>
             <div>
-                <h3 className='text-white'>Admin</h3>
+                <h3 className='text-white'>{userName.user_Name}</h3>
             </div>
         </div>
     )

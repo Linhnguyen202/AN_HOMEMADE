@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CategoryBox from './CategoryBox';
-import ProductsBox from './ProductsBox';
+import CategoryBox from './Categories/CategoryBox';
+import ProductsBox from './Products/ProductsBox';
 
 const ContentManage = () => {
     const [show ,setShow] = useState(true)
