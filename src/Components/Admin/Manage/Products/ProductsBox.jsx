@@ -10,15 +10,14 @@ const ProductsBox = ({show,setShow}) => {
                 <div>
                     <h3 className='text-3xl font-semibold text-center text-gray-800'>Quan ly San pham</h3>
                     <div>
-                        <button className='px-3 py-2 mx-2 text-white rounded-lg bg-secondColor' onClick={()=>setTable(false)}>Add</button>
-                        <button className='px-3 py-2 mx-2 text-white rounded-lg bg-secondColor'onClick={()=>setTable(true)}>Manage</button>
+                        <button className='px-3 py-2 mx-2 text-white rounded-lg bg-secondColor' onClick={()=>setTable(true)}>Add</button>
                     </div>
                     <div className='px-5 py-3'>
-                        <TableProducts></TableProducts>
-                       
+                        <TableProducts></TableProducts>    
                     </div>
                 </div>
             </div>
+            {table ? <EditProducts setTable={setTable}></EditProducts> : null}
         </div>
     );
 };
