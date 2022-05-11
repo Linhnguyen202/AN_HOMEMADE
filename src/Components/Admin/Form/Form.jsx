@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import md5 from 'md5';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../../httpApiClientInterface/ApiUser';
-import { loginStatus } from '../../../Lib/Commomdata';
 import { useAuth } from '../../../context/authContext';
 
 
