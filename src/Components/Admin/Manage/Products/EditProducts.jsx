@@ -18,7 +18,6 @@ const EditProducts = ({setTable})=>{
    
         var idFromLink = GetIdByLinkShopee(linkProduct);
         console.log("id: ", idFromLink);
-
         GetDetailByIdItemIdshop(idFromLink.itemId, idFromLink.shopId).then((data)=>{
             productInfo = data;
         })
@@ -39,6 +38,9 @@ const EditProducts = ({setTable})=>{
                     </div>
                     <div className='mt-5 text-right'>
                         <button onClick={GetInfoByLink} className='right-0 px-5 py-3 text-white border rounded-lg bg-secondColor'>Lấy thông tin</button>
+                    </div>
+                    <div className='mt-5 text-right'>
+                        <button className='right-0 px-5 py-3 text-white border rounded-lg bg-secondColor'>Thêm sản phẩm</button>
                     </div>
                     
                 </div>
