@@ -1,16 +1,22 @@
-export const GetDetailByIdItemIdshop = async (itemId ,shopId) =>{
-    const headers = new Headers()
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('authority', 'shopee.vn');
-    headers.append('Origin','http://localhost:3000');
-    await fetch(`https://shopee.vn/api/v4/item/get?itemid=${itemId}&shopid=${shopId}`,{
-        mode: 'no-cors',
+import { BaseHttpsService } from '../Lib/Commomdata';
+export const GetDetailByIdItemIdshop = async (token,itemId ,shopId) =>{
+    let content
+    await fetch(`${BaseHttpsService}/api/products/get-by-itemid-shopid?idItem=${itemId}&idShop=${shopId}`,{
         method: 'GET',
-        credentials: 'include',
-        headers: headers,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
     })
-    .then((res)=>res.json())
-    .then((data)=>{console.log(data)})
-    .catch((err)=>{console.log(err)})
+    .then(res => res.json())
+    .then((data) => {
+        content = data
+        return data
+    })
+    .catch((e)=>{
+        console.log(e)
+        return null;
+    })
+    return content
 }

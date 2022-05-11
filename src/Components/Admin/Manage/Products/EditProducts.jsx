@@ -4,24 +4,28 @@ import { GetDetailByIdItemIdshop } from '../../../../httpApiClientInterface/ApiS
 
 
 const EditProducts = ({setTable})=>{
+    
+    
     // const handleSubmit = ()=>{
     //     setTable(false)
     // }
     const [linkProduct,setlinkProduct] = useState("");
-    var productInfo = {}
+    let productInfo
 
-    const GetInfoByLink=(e)=>{
-        console.log(linkProduct)
-        if(linkProduct === ""){
-            return
+    const  GetInfoByLink= async (e)=> {
+        try{
+            var user = JSON.parse(sessionStorage.getItem("UserLogged"))
+            if(linkProduct === ""){
+                return
+            }
+            var idFromLink = GetIdByLinkShopee(linkProduct);
+            await GetDetailByIdItemIdshop(user.token ,idFromLink.itemId, idFromLink.shopId).then((data)=>{
+                productInfo = JSON.parse(data.success);
+            })
+            console.log(productInfo);
+        }catch(err){
+            console.log(err)
         }
-   
-        var idFromLink = GetIdByLinkShopee(linkProduct);
-        console.log("id: ", idFromLink);
-        GetDetailByIdItemIdshop(idFromLink.itemId, idFromLink.shopId).then((data)=>{
-            productInfo = data;
-        })
-
     }
     return (
         <div className='fixed inset-0 flex items-center justify-center'>

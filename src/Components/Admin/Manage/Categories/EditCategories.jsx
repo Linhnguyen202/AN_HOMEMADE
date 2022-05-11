@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { CategoriesUpdate } from '../../../../httpApiClientInterface/ApiCategories';
 
 const EditCategories= ({setTableAding})=>{
+    const user = JSON.parse(sessionStorage.getItem("UserLogged"))
     const [data,setData] = useState({
         Name:"",
         Note:"",
-        Created_By:JSON.parse(sessionStorage.getItem("UserLogged")).user_Name || "",
+        Created_By: user.user_Name || "",
         Created_Date:new Date().toLocaleDateString() || ""
 
     })
