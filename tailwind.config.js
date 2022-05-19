@@ -11,6 +11,9 @@ module.exports = {
         'secondText' : '#888888',
         'priceText' : '#585858'
       },
+      boxShadow: {
+        '3xl': '0px 5px 15px rgba(0, 0, 0, 0.35)',
+      }
     },
   },
   plugins: [],
