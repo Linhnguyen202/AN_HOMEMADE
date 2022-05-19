@@ -92,7 +92,7 @@ const AddProducts = ({setTable})=>{
     },[])
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
-            <div className='absolute inset-0 bg-black bg-opacity-40' onClick={()=>setTable(false)}></div>
+            <div className='absolute inset-0 bg-black bg-opacity-40' ></div>
 
              <div className='z-50 bg-white rounded-lg shadow-2xl form-add'>
                 <div className='flex justify-between p-2 shadow modal-header'>

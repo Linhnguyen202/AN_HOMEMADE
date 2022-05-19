@@ -55,8 +55,8 @@ const TableCategories = ({setTableAding}) => {
                     <input onChange={handleInput} type="text" placeholder='Tim kiem' className='p-1 border rounded-lg border-mainColor' />
                 </div>
                 <div className='flex items-center '>
-                    <button className='px-4 py-2 mx-2 text-sm text-white rounded-lg bg-secondColor' onClick={()=>setTableAding(true)}>Thêm mới</button>
-                    <button onClick={()=>searchCategory(1)} className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-secondColor'>
+                    <button className='px-4 py-2 mx-2 text-sm text-white rounded-lg bg-[#32CD32]' onClick={()=>setTableAding(true)}>Thêm mới</button>
+                    <button onClick={()=>searchCategory(1)} className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-[#32CD32]'>
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
@@ -76,7 +76,7 @@ const TableCategories = ({setTableAding}) => {
                                 <th className='px-6 py-4 text-sm font-medium text-left text-gray-900'>Mô tả</th>
                                 <th className='px-6 py-4 text-sm font-medium text-left text-gray-900'>Người tạo</th>
                                 <th className='px-6 py-4 text-sm font-medium text-left text-gray-900'>Ngày tạo</th>
-                                <th className='px-6 py-4 text-sm font-medium text-left text-gray-900'>Chưc năng</th>
+                                <th className='px-6 py-4 text-sm font-medium text-left text-gray-900'>Chức năng</th>
                             </tr>
                         </thead>
                         
@@ -87,20 +87,20 @@ const TableCategories = ({setTableAding}) => {
                     {detailModal ? <DetailCategories setDetailModal={setDetailModal} detailCategories={detailCategories}></DetailCategories> : null}
                     {editModal ? <EditCategories editCategories={editCategories} setEditModal={setEditModal}></EditCategories> : null}            
                 </div>
-            </div>
-            <div className="mt-10">
+            
+            <div className="p-1 m-3">
                 <ReactPaginate
                     breakLabel="..."
-                    nextLabel="next >"
+                    nextLabel=">"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={5}
                     pageCount={pageCount}
-                    previousLabel="< previous"
+                    previousLabel="<"
                     renderOnZeroPageCount={null}
                     className="pagination"
                 />
             </div>
-
+            </div>
         </div>
     );
 };

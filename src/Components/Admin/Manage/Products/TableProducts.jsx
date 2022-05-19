@@ -5,12 +5,14 @@ import { recordPerpage } from '../../../../Lib/Commomdata';
 import { GetFromToPaging } from '../../../../Lib/CommondFunction';
 import DetailProducts from './DetailProducts';
 import EditProduct from './EditProduct';
+import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
 
 const TableProducts = ({setTable}) => {
     const [totalRows,setTotalRow] = useState(0)
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
     const [currentPage,setCurrentPage] = useState(1)
+    const [categoriyList,setCategoryList] = useState()
     //
     const [detailModal,setDetailModal] = useState(false)
     const [editModal,setEditModal] = useState(false)
@@ -30,7 +32,9 @@ const TableProducts = ({setTable}) => {
         let pageInfor = GetFromToPaging(currentPage,recordPerpage,toRecord)
         toRecord = pageInfor.toRecord
         let fromRecord = pageInfor._FromRecord
-        search(keysearch,fromRecord,toRecord).then((data)=>{
+        let keySearch = Object.values(keysearch).join('|');
+        console.log(keySearch)
+        search(keySearch,fromRecord,toRecord).then((data)=>{
             setTotalRow(data.totalRows)
             setProducts([...JSON.parse(data.jsonData)])
         })      
@@ -45,7 +49,6 @@ const TableProducts = ({setTable}) => {
         searchProducts(currentPage);
     },[currentPage])
     const handlePageClick = (event) => {
-        console.log(event)
         const newOffset = (event.selected * recordPerpage) % totalRows;
         setItemOffset(newOffset);
         setCurrentPage(event.selected + 1)
@@ -54,7 +57,15 @@ const TableProducts = ({setTable}) => {
         // Fetch items from another resources.
         const endOffset = itemOffset + recordPerpage;
         setPageCount(Math.ceil(totalRows / recordPerpage));
+
+        
       }, [totalRows, recordPerpage]);
+    
+    useEffect(()=>{
+        searchCate("","","").then((data)=>{
+            setCategoryList([...JSON.parse(data.jsonData )])
+        })      
+    },[])
     return (
         <div>
         <div className='p-2 mt-3 bg-white border rounded-lg shadow'>
@@ -65,27 +76,38 @@ const TableProducts = ({setTable}) => {
                 </div>
                 <div className='flex flex-row items-center gap-x-3'>
                     <span>Hãng</span>
-                    <input name="brand"  onChange={handleInput} type="text" placeholder='Tên sp' className='p-1 border rounded-lg border-mainColor' />
+                    <input name="brand"  onChange={handleInput} type="text" placeholder='Hãng' className='p-1 border rounded-lg border-mainColor' />
                 </div>
                 <div className='flex flex-row items-center gap-x-3'>
                     <span>Danh mục</span>
-                    <input name="category_id"  onChange={handleInput} type="text" placeholder='Tên sp' className='p-1 border rounded-lg border-mainColor' />
+                    <select name="Caterogy_Name" id="" className='p-1 border rounded-lg border-mainColor' onChange={(e)=>handleInput(e)} placeholder='--Danh mục--'>
+                            <option key={-1} data-id={''} >[Tất cả]</option>
+                           {categoriyList && categoriyList.map((item,index)=>{
+                               return (
+                                   <option key={item.Id} data-id={item.Id} >{item.Name}</option>
+                               )
+                           })}
+                       </select>
                 </div>
                 <div className='flex flex-row items-center gap-x-3'>
                     <span>Trạng thái</span>
-                    <input name="startus"  onChange={handleInput} type="text" placeholder='' className='p-1 border rounded-lg border-mainColor' />
+                    <select name="Caterogy_Name" id="" className='p-1 border rounded-lg border-mainColor' onChange={(e)=>handleInput(e)} placeholder='--Danh mục--'>
+                            <option key={-1} data-id={''} >[Tất cả]</option>
+                            <option key={2} data-id={''} >Còn hàng</option>
+                            <option key={3} data-id={''} >Hết hàng</option>
+                       </select>
                 </div>
                 <div className='flex flex-row items-center gap-x-3'>
                     <span>Giá từ</span>
-                    <input  name="min_price"   onChange={handleInput}  type="text" placeholder='(vnđ)' className='p-1 border rounded-lg border-mainColor' />
+                    <input  name="min_price"   onChange={handleInput}  type="text" placeholder='vnđ' className='p-1 border rounded-lg border-mainColor' />
                 </div>
                 <div className='flex flex-row items-center gap-x-3'>
                     <span>Đến</span>
                     <input name="max_price" type="text"  onChange={handleInput} placeholder='vnđ' className='p-1 border rounded-lg border-mainColor' />
                 </div>
                 <div className='flex items-center '>
-                    <button className='px-3 py-1 mx-2 text-white rounded-lg bg-secondColor' onClick={()=>setTable(true)}>Thêm mới</button>
-                    <button className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-secondColor' onClick={()=>searchProducts(1)}>
+                    <button className='px-3 py-1 mx-2 text-white rounded-lg bg-[#32CD32]' onClick={()=>setTable(true)}>Thêm mới</button>
+                    <button className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-[#32CD32]' onClick={()=>searchProducts(1)}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>

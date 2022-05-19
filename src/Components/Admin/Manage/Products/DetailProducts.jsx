@@ -7,7 +7,7 @@ const DetailProducts = ({setDetailModal,detailproduct}) => {
     let Modified_Date = new Date(detailproduct.Modified_Date)
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
-             <div onClick={()=>setDetailModal(false)} className='absolute inset-0 bg-black bg-opacity-40'></div>
+             <div className='absolute inset-0 bg-black bg-opacity-40'></div>
              <div className='form-Detail  w-[800px] h-[400px] overflow-y-scroll z-50 bg-white rounded-lg shadow-2xl p-3'>
                 <div className='text-center'>
                     <h1 className='text-2xl font-bold'>Chi tiết</h1>

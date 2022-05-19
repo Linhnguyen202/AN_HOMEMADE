@@ -5,30 +5,54 @@ const DetailCategories = ({detailCategories,setDetailModal}) => {
     let Created_Date = new Date(detailCategories.Created_Date);
     let Modified_Date = new Date(detailCategories.Modified_Date)
     return (
-        <div onClick={()=>setDetailModal(false)} className='fixed inset-0 flex items-center justify-center'>
-        <div  className='absolute inset-0 bg-black bg-opacity-40'></div>
-        <div className='form-Detail  w-[500px] h-[400px]  z-50 bg-white rounded-lg shadow-2xl p-4'>
+//         
+        <div className='fixed inset-0 flex items-center justify-center'>
+            <div className='absolute inset-0 bg-black bg-opacity-40'></div>
             
-            <div className='text-center'>
-                <h1 className='text-2xl font-bold'>Chi tiết</h1>
-            </div>
-                {detailCategories && (
-                    <div>
-                        <h3 className='py-2'><span className='text-xl font-bold'>ID:</span> {detailCategories.Id}</h3>
-                         <h3 className='py-2'><span className='text-xl font-bold'>Name:</span> {detailCategories.Name}</h3>
-                         <h3 className='py-2'><span className='text-xl font-bold'>Created_date:</span> {Created_Date.toLocaleDateString()}</h3>
-                         <h3 className='py-2'><span className='text-xl font-bold'>Modified_date:</span> {Modified_Date.toLocaleDateString()}</h3>
-                         <h3 className='py-2'><span className='text-xl font-bold'>Created_By:</span>{detailCategories.Created_By.toLocaleString()}</h3>
+            <div className='z-50 bg-white rounded-lg shadow-2xl form-add'>
+                <div className='flex justify-between p-2 shadow modal-header'>
+                    <h3 className='text-2xl font-bold text-center text-red-800'>Thông tin chi tiết</h3>
+                    <div className='p-1 text-right '>
+                        <button className='' onClick={()=>setDetailModal(false)}>X</button>
                     </div>
-                   
-            
+                </div>
+                <div className='flex flex-col mb-3 overflow-y-scroll modal-body w-[1100px] h-[300px] p-4'>
+                    <label htmlFor="" className='mb-2'>Tên danh mục</label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input readOnly name='Name' value={detailCategories.Name || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Tên danh mục"/>
+                    </div>
+                 
+                    <label htmlFor="" className='mb-2'>Mô tả</label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <textarea readOnly  name='Note'  value={detailCategories.Note || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Mô tả"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Người tạo</label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input readOnly  name='Name' value={detailCategories.Created_By || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Tên danh mục"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Ngày tạo</label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input readOnly name='Name' value={Created_Date.toLocaleDateString() || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Tên danh mục"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Người sửa</label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input readOnly name='Name' value={detailCategories.Modified_By || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Tên danh mục"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Ngày sửa</label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input readOnly name='Name' value={Modified_Date.toLocaleDateString() || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Tên danh mục"/>
+                    </div>
 
-                )
-                }
-           
-            
+                </div> 
+                <div  className='shadow-3xl footer modal-footer'>
+                    <div className='p-2 text-right'>
+                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setDetailModal(false)}>Thoát</button>
+                    </div>
+                </div>
+            </div>
         </div>
-   </div>
+
+   
     );
 };
 

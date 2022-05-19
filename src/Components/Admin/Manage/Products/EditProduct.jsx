@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { productItemEdit } from '../../../../httpApiClientInterface/ApiProduct';
+import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
+import { data } from 'autoprefixer';
+import { toast } from 'react-toastify';
+
 const EditProduct = ({setEditModal,editProduct,products}) => {
-    const user = JSON.parse(sessionStorage.getItem("UserLogged"))
-    const token = user ? user.token : ""
     const [editItem,setEditItem] = useState(editProduct)
+    const [categoriyList,setCategoryList] = useState()
+
     const handleEditProducts = (e)=>{        
         if(e.target.name === "Price"){
             setEditItem({
@@ -23,8 +27,9 @@ const EditProduct = ({setEditModal,editProduct,products}) => {
         
     }
     const  handleEditdata = ()=>{
+        const user = JSON.parse(sessionStorage.getItem("UserLogged"))
         let arrProducts = editItem;
-        arrProducts =Object.fromEntries(
+        arrProducts = Object.fromEntries(
             Object.entries(arrProducts).map((item)=>{
                 return item.map((value)=>{
                     if(value === null)
@@ -33,37 +38,98 @@ const EditProduct = ({setEditModal,editProduct,products}) => {
                 })
             })
         )
-       
-      
-        console.log(arrProducts)
         
-        productItemEdit(arrProducts,token)
+        productItemEdit(arrProducts,user.token).then((success)=>{
+            if(success > 0)
+            {
+                toast.success("Cập nhật sản phẩm thành công!",{
+                    pauseOnHover:false,
+                    delay:0
+                })
+                setEditModal(false)
+            }else{
+                toast.error("Cập nhật sản phẩm không thành công!",{
+                    pauseOnHover:false,
+                    delay:0
+                })  
+            }
+        })
     } 
+
+    useEffect(()=>{
+        searchCate("","","").then((data)=>{
+            setCategoryList([...JSON.parse(data.jsonData )])
+        })      
+    },[])
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
-             <div className='absolute inset-0 bg-black bg-opacity-40' onClick={()=>setEditModal(false)}></div>
-             <div className='form-add  w-[1000px] h-[400px] overflow-y-scroll z-50 bg-white rounded-lg shadow-2xl p-3'>
-                <label htmlFor="" className='mb-2'>Tên sản phẩm</label>
-                <div className='px-2 py-3 mb-2 bg-gray-200 rounded-md'>
-                    <input name="Name" onChange={handleEditProducts} value={editItem.Name || ""}  type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+            <div className='absolute inset-0 bg-black bg-opacity-40'></div>
+
+             <div className='z-50 bg-white rounded-lg shadow-2xl form-add'>
+                <div className='flex justify-between p-2 shadow modal-header'>
+                    <h3 className='text-2xl font-bold text-center text-red-800'>Cập nhật</h3>
+                    <div className='p-1 text-right '>
+                        <button className='' onClick={()=>setEditModal(false)}>X</button>
+                    </div>
                 </div>
-                <label htmlFor="" className='mb-2'>Nguồn gốc</label>
-                <div className='px-2 py-3 mb-2 bg-gray-200 rounded-md'>
-                    <input name="Origin" onChange={handleEditProducts} value={editItem.Origin || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                <div className='flex flex-col mb-3 overflow-y-scroll modal-body w-[1100px] h-[500px] p-4'>
+                    <label htmlFor="" className='mb-2'>Danh mục <span className='text-red-600 '>(*)</span></label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                       <select name="Caterogy_Name" id="" className='w-full h-full bg-transparent outline-none' onChange={(e)=>handleEditProducts(e)}>
+                           {categoriyList && categoriyList.map((item,index)=>{
+                               return (
+                                   <option key={item.Id} data-id={item.Id} >{item.Name}</option>
+                               )
+                           })}
+                       </select>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Tên SP <span className='text-red-600 '>(*)</span></label>
+                    <div className='px-2 py-3 mb-2 bg-gray-200 rounded-md'>
+                        <input name="Name"  type="text" value={editItem.Name} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Giá <span className='text-red-600 '>(*)</span></label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input name="Price"  type="text" value={editItem.Price} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
+                    
+                    <label htmlFor="" className='mb-2'>Giảm giá<span className='text-red-600 '>(*)</span></label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input name='Discount'  type="text" value={editItem.Discount} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Số lượng <span className='text-red-600 '>(*)</span></label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input  name='Stock' type="text" value={editItem.Stock} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Xuất xứ <span className='text-red-600 '>(*)</span></label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input name="Origin"  type="text" value={editItem.Origin} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Hãng <span className='text-red-600 '>(*)</span></label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input name="Brand"  type="text" value={editItem.Brand} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
+                    <label htmlFor="" className='mb-2'>Mô tả <span className='text-red-600 '>(*)</span></label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <textarea name='Description'  type="text" value={editItem.Description} onChange={(e)=>handleEditProducts(e)}   className='w-full h-[200px] text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
+                    
+                    <label htmlFor="" className='mb-2'>Số bán</label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input name='Sold' type="text" value={editItem.Sold} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
+                    
+                    <label htmlFor="" className='mb-2'>Sao đánh giá</label>
+                    <div className='px-2 py-3 bg-gray-200 rounded-md'>
+                        <input name='Rating_Star' type="text" value={editItem.Rating_Star} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                    </div>
                 </div>
-                <label htmlFor="" className='mb-2'>Giá</label>
-                <div className='px-2 py-3 mb-2 bg-gray-200 rounded-md'>
-                    <input name="Price" onChange={handleEditProducts}  value={editItem.Price || ""}  type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                <div  className='shadow-3xl footer modal-footer'>
+                    <div className='p-2 text-right'>
+                        <button onClick={handleEditdata} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor'>Lưu</button>
+                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setEditModal(false)}>Quay lại</button>
+                    </div>
                 </div>
-                <label htmlFor="" className='mb-2'>Đánh giá</label>
-                <div className='px-2 py-3 mb-2 bg-gray-200 rounded-md'>
-                    <input name="Rating_Star" onChange={handleEditProducts}  value={editItem.Rating_star || ""} type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
-                </div>
-                <div className='mt-5 text-right'>
-                        <button onClick={handleEditdata} className='right-0 px-5 py-3 text-white border rounded-lg bg-secondColor'>Thay đổi</button>
-                </div>
-             </div>
-             
+            </div>     
         </div>
     );
 };

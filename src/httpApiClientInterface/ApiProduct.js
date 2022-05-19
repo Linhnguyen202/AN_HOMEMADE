@@ -29,10 +29,9 @@ export const ProductsUpdate = async (token,data) => {
 }
 
 export const search= async (keySearch,startRow,endRow,orderBy="")=>{
-    let query = Object.values(keySearch).join('|');
-    console.log(query)
+    
     let responseSearch
-    await fetch(`${BaseHttpsService}/api/products/search?keySearch=${query}&startRow=${startRow}&endRow=${endRow}&orderBy=${orderBy}`)
+    await fetch(`${BaseHttpsService}/api/products/search?keySearch=${keySearch}&startRow=${startRow}&endRow=${endRow}&orderBy=${orderBy}`)
     .then(res => res.json())
     .then((data) => {
         responseSearch = data
@@ -45,7 +44,6 @@ export const search= async (keySearch,startRow,endRow,orderBy="")=>{
     return responseSearch
 }
 export const ProductsDelete = ({index,listData,token})=>{
-    console.log(listData[index].Id)
     confirmAlert({
         customUI: ({ onClose }) => {
           return (
@@ -106,8 +104,7 @@ export const getDetail = async (id,token)=>{
     return detailList
 }
 export const productItemEdit= async (data,token)=>{
-
-    console.log(typeof data.Modified_Date)
+    let _result = -1
     await fetch(`${BaseHttpsService}/api/products/update`, {
         method: 'PUT',
         headers: {
@@ -118,15 +115,10 @@ export const productItemEdit= async (data,token)=>{
     }) 
     .then(res => res.json())
     .then((data) => {
-        console.log(data)
-        toast.success("Edit succesfully",{
-            pauseOnHover:false,
-            delay:0
-        })  
+        _result = data.success
     }).catch((e)=>{
-        toast.error("Edit failed",{
-            pauseOnHover:false,
-            delay:0
-        })  
+        _result = -1101
     })
+
+    return _result
 }
