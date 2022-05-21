@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
 import { categoriesItemEdit } from '../../../../httpApiClientInterface/ApiCategories';
+import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
+import { modalConfirm } from '../../../ModalConfirm/ModalConfirm';
 
 const EditCategories = ({setEditModal,editCategories}) => {
     const user = JSON.parse(sessionStorage.getItem("UserLogged"))
     const [data,setData] = useState(editCategories)
-    // const [data,setData] = useState({
-    //     Id:editCategories.Id,
-    //     STT:editCategories.STT,
-    //     name:"",
-    //     note:"",
-    //     created_By: user.user_Name || "",
-    //     created_Date:new Date() || "",
-    //     modified_By: user.user_Name || "",
-    //     modified_Date:new Date(),
-    //     deleted: 0
-
-    // })
     const handleEdit = (e)=>{
         setData({
             ...data,
@@ -25,7 +15,14 @@ const EditCategories = ({setEditModal,editCategories}) => {
     }
     const handleEditApi=()=>{
         setEditModal(false)
-        categoriesItemEdit(data,user.token)
+        categoriesItemEdit(data,user.token).then((data)=>{
+            if(data > 0){
+                successModal("Chỉnh sửa thành công")
+            }
+            else{
+                failedModal("Chỉnh sưa thất bại")
+            }
+        })
     }
     return (
         <div className='fixed inset-0 flex items-center justify-center'>

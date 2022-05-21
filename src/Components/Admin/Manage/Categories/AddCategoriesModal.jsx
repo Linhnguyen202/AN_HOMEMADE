@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { CategoriesUpdate } from '../../../../httpApiClientInterface/ApiCategories';
+import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
 const AddCategories= ({setTableAding})=>{
     const user = JSON.parse(sessionStorage.getItem("UserLogged")) || ""
@@ -24,7 +25,14 @@ const AddCategories= ({setTableAding})=>{
     const handleUpdate=()=>{
         var user = JSON.parse(sessionStorage.getItem("UserLogged"))
    
-        CategoriesUpdate(data,user.token)
+        CategoriesUpdate(data,user.token).then((data)=>{
+            if(data>0){
+                successModal("Thêm thành công")
+            }
+            else{
+                failedModal("Thêm thất bại")
+            }
+        })
         setTableAding(false) 
     }
     return (

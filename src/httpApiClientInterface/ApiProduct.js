@@ -3,8 +3,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { toast } from 'react-toastify';
 import { BaseHttpsService } from '../Lib/Commomdata';
 export const ProductsUpdate = async (token,data) => {
-    console.log(token,data)
-    console.log(typeof data.Modified_Date)
+    let _result = -1
     await fetch('https://localhost:44339/api/products/insert', {
         method: 'POST',
         headers: {
@@ -16,16 +15,12 @@ export const ProductsUpdate = async (token,data) => {
     }) 
     .then(res => res.json())
     .then((data) => {
-        toast.success("Add in succesfully",{
-            pauseOnHover:false,
-            delay:0
-        })   
+        _result = data.success
     }).catch((e)=>{
-        toast.error("Add in failed",{
-            pauseOnHover:false,
-            delay:0
-        })    
+        console.log(e)
+        _result = -1101
     })
+    return _result
 }
 
 export const search= async (keySearch,startRow,endRow,orderBy="")=>{
@@ -43,28 +38,11 @@ export const search= async (keySearch,startRow,endRow,orderBy="")=>{
     })
     return responseSearch
 }
-export const ProductsDelete = ({index,listData,token})=>{
-    confirmAlert({
-        customUI: ({ onClose }) => {
-          return (
-            <div className='custom-ui'>
-              <h1>Are you sure?</h1>
-              <p>You want to delete this file?</p>
-              <div>
-                <button className='btn-accept' onClick={() => {
-                  console.log(listData[index])
-                  DeleteItem()
-                  onClose()
-              }}>Yes, Delete it!</button>
-                <button className='btn-reject' onClick={onClose}>No</button>
-              </div>
-             
-            </div>
-          )
-        }
-    })
-    const DeleteItem = async (id,modified_By)=>{
-        await fetch(`${BaseHttpsService}/api/products/delete?id=${listData[index].Id}`, {
+
+
+export const DeleteItem = async (data,token)=>{
+        let _result = -1
+        await fetch(`${BaseHttpsService}/api/products/delete?id=${data.Id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,19 +52,15 @@ export const ProductsDelete = ({index,listData,token})=>{
         }) 
         .then(res => res.json())
         .then((data) => {
-            toast.success("Delete succesfully",{
-                pauseOnHover:false,
-                delay:0
-            })  
+            _result = data.success
         }).catch((e)=>{
-            toast.error("Delete failed",{
-                pauseOnHover:false,
-                delay:0
-            })
+            console.log(e)
+            _result = -1101
         })
-    }
-   
+        return _result
 }
+   
+
 export const getDetail = async (id,token)=>{
     let detailList = {}
     await fetch(`${BaseHttpsService}/api/products/get-by-id?id=${id}`, {
@@ -104,6 +78,7 @@ export const getDetail = async (id,token)=>{
     return detailList
 }
 export const productItemEdit= async (data,token)=>{
+    console.log(data)
     let _result = -1
     await fetch(`${BaseHttpsService}/api/products/update`, {
         method: 'PUT',

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import AddCategories from './AddCategories';
+import AddCategories from './AddCategoriesModal';
 import TableCategories from './TableCategories';
 const CategoryBox = ({show,setShow}) => {
     const [tableAding,setTableAding] = useState(false)
     return (        
-        <div className="p-5  bg-gray-50">
+        <div className="p-5 bg-gray-50">
             <div>
                 <div>
                     <div className='px-5 py-3'>

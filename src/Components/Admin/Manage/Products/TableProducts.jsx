@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { getDetail, ProductsDelete, search } from '../../../../httpApiClientInterface/ApiProduct';
+import { getDetail, DeleteItem, search } from '../../../../httpApiClientInterface/ApiProduct';
 import { recordPerpage } from '../../../../Lib/Commomdata';
 import { GetFromToPaging } from '../../../../Lib/CommondFunction';
-import DetailProducts from './DetailProducts';
-import EditProduct from './EditProduct';
+import DetailProducts from './DetailProductsModal';
+import EditProduct from './EditProductModal';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
+import { modalConfirm } from '../../../ModalConfirm/ModalConfirm';
 
 const TableProducts = ({setTable}) => {
     const [totalRows,setTotalRow] = useState(0)
@@ -163,11 +164,15 @@ const TableItems = ({listData,setDetailProduct,setDetailModal,setEditModal,setEd
         setDetailProduct(data)
         setDetailModal(true)
     }
+    const  ProductsDelete=({index,listData,token})=>{
+        modalConfirm(DeleteItem,listData[index],token,"Xóa thành công","Xóa thất bại")
+    }
     const openEdit = (data)=>{
         console.log(data)
         setEditProduct(data)
         setEditModal(true)
     }
+
     return (
         <>
         <tbody>

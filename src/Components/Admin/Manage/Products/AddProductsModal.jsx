@@ -3,6 +3,7 @@ import { GetFromToPaging, GetIdByLinkShopee } from '../../../../Lib/CommondFunct
 import { GetDetailByIdItemIdshop } from '../../../../httpApiClientInterface/ApiShopeeHelper';
 import { ProductsUpdate, search } from '../../../../httpApiClientInterface/ApiProduct';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
+import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
 
 const AddProducts = ({setTable})=>{
@@ -82,7 +83,14 @@ const AddProducts = ({setTable})=>{
             })
         )
       
-        ProductsUpdate(user.token,arrProducts)
+        ProductsUpdate(user.token,arrProducts).then((data)=>{
+            if(data>0){
+                successModal("Thêm thành công")
+            }
+            else{
+                failedModal("Thêm thất bại")
+            }
+        })
        
     }
     useEffect(()=>{

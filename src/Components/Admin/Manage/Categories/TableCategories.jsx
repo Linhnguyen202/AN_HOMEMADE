@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { CategoriesDelete, search } from '../../../../httpApiClientInterface/ApiCategories';
+import { CategoriesDelete, DeleteItem, search } from '../../../../httpApiClientInterface/ApiCategories';
 import { recordPerpage } from '../../../../Lib/Commomdata';
 import { GetFromToPaging } from '../../../../Lib/CommondFunction';
-import DetailCategories from './DetailCategories';
-import EditCategories from './EditCategories';
+import DetailCategories from './DetailCategoriesModal';
+import EditCategories from './EditCategoriesModal';
 import ReactPaginate from 'react-paginate';
+import { modalConfirm } from '../../../ModalConfirm/ModalConfirm';
 const TableCategories = ({setTableAding}) => {
     const [pageCount, setPageCount] = useState(0);
     const [totalRows,setTotalRow] = useState(0)
@@ -122,11 +123,12 @@ const TableItems = ({listData,setDetailModal,setDetailCategories,setEditModal,se
         setDetailModal(true)
 }
 const openEdit = (data)=>{
-    console.log(data)
     setEditCategories(data)
     setEditModal(true)
  }
-
+const CategoriesDelete = ({index,setData,data,listData,token})=>{
+    modalConfirm(DeleteItem,listData[index],token,"Xóa thành công","Xóa thất bại")
+}
     return (
       <tbody>
           {listData && listData.length > 0 && listData.map((item,index)=>{

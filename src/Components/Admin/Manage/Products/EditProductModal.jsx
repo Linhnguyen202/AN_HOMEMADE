@@ -3,11 +3,12 @@ import { productItemEdit } from '../../../../httpApiClientInterface/ApiProduct';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
 import { data } from 'autoprefixer';
 import { toast } from 'react-toastify';
+import { failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
 const EditProduct = ({setEditModal,editProduct,products}) => {
     const [editItem,setEditItem] = useState(editProduct)
+    console.log(editItem)
     const [categoriyList,setCategoryList] = useState()
-
     const handleEditProducts = (e)=>{        
         if(e.target.name === "Price"){
             setEditItem({
@@ -42,16 +43,10 @@ const EditProduct = ({setEditModal,editProduct,products}) => {
         productItemEdit(arrProducts,user.token).then((success)=>{
             if(success > 0)
             {
-                toast.success("Cập nhật sản phẩm thành công!",{
-                    pauseOnHover:false,
-                    delay:0
-                })
+               successModal("Cập nhật sản phẩm thành công! ")
                 setEditModal(false)
             }else{
-                toast.error("Cập nhật sản phẩm không thành công!",{
-                    pauseOnHover:false,
-                    delay:0
-                })  
+                failedModal("Cập nhật sản phẩm không thành công!")
             }
         })
     } 

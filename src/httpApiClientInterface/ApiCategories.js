@@ -21,30 +21,9 @@ export const  CategoriesUpdate = async (data,token)=>{
     })
     return _result
 }
-
-export const CategoriesDelete = ({index,setData,data,listData,token})=>{
-    confirmAlert({
-        customUI: ({ onClose }) => {
-          return (
-            <div className='custom-ui'>
-              <h1>Are you sure?</h1>
-              <p>You want to delete this file?</p>
-              <div>
-                <button className='btn-accept' onClick={() => {
-                    console.log(listData[index])
-                  DeleteItem()
-                  onClose()
-                }}>Yes, Delete it!</button>
-                <button className='btn-reject' onClick={onClose}>No</button>
-              </div>
-            </div> 
-          
-          )
-        }
-    })
-    const DeleteItem = async (id,modified_By)=>{
+export const DeleteItem = async (data,token)=>{ 
         let _result = -1
-        await fetch(`${BaseHttpsService}/api/categories/delete?id=${listData[index].Id}`, {
+        await fetch(`${BaseHttpsService}/api/categories/delete?id=${data.Id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,12 +36,13 @@ export const CategoriesDelete = ({index,setData,data,listData,token})=>{
         }).catch((e)=>{
             console.log(e)
             _result = -1101
-        return _result
+       
         })
-
+    return _result
     }
+
    
-}
+
 
 export const search= async (keySearch,startRow,endRow,orderBy="")=>{
     let responseSearch
