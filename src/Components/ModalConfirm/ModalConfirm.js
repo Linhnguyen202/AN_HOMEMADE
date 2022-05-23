@@ -3,7 +3,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import {  failedModal, successModal } from './ModalAlert';
 
 export const modalConfirm = (ApiFunction,data,token,success,failed) => {
-    console.log(ApiFunction)
     confirmAlert({
         customUI: ({ onClose }) => {
           return (
@@ -31,3 +30,4 @@ export const modalConfirm = (ApiFunction,data,token,success,failed) => {
         }
     })
 };
+

@@ -1,9 +1,7 @@
-import { confirmAlert } from 'react-confirm-alert';
 import { BaseHttpsService } from '../Lib/Commomdata';
 import 'react-confirm-alert/src/react-confirm-alert.css' 
-import { toast } from 'react-toastify';
 
-export const  CategoriesUpdate = async (data,token)=>{
+export const  CategoriesInsert = async (data,token)=>{
     let _result = -1
     await fetch(`${BaseHttpsService}/api/categories/insert`, {
         method: 'POST',
@@ -21,17 +19,16 @@ export const  CategoriesUpdate = async (data,token)=>{
     })
     return _result
 }
-export const DeleteItem = async (data,token)=>{ 
+export const DeleteItem = async (id,modified_by,token)=>{ 
         let _result = -1
-        await fetch(`${BaseHttpsService}/api/categories/delete?id=${data.Id}`, {
+        await fetch(`${BaseHttpsService}/api/categories/delete?id=${id}&modifiedBy=${modified_by}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization' : `Bearer ${token}`
             },
         }) 
-        .then(res => res.json())
-        .then((data) => {
+        .then(res => res.json()).then((data) => {
             _result = data.success
         }).catch((e)=>{
             console.log(e)
@@ -39,11 +36,27 @@ export const DeleteItem = async (data,token)=>{
        
         })
     return _result
-    }
+}
+
+export const GetById = async (id)=>{ 
+    let responseSearch
+    await fetch(`${BaseHttpsService}/api/categories/get-by-id?id=${id}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    }) 
+    .then(res => res.json())
+    .then((data) => {
+        responseSearch = data
+    }).catch((e)=>{
+        console.log(e) 
+    })
+    return responseSearch
+}
 
    
-
-
 export const search= async (keySearch,startRow,endRow,orderBy="")=>{
     let responseSearch
     await fetch(`${BaseHttpsService}/api/categories/search?keySearch=${keySearch}&startRow=${startRow}&endRow=${endRow}&orderBy=${orderBy}`)
@@ -58,6 +71,7 @@ export const search= async (keySearch,startRow,endRow,orderBy="")=>{
     })
     return responseSearch
 }
+
 export const categoriesItemEdit= async (data,token)=>{
     let _result = -1
     await fetch(`${BaseHttpsService}/api/categories/update`, {

@@ -94,8 +94,8 @@ const TableProducts = ({setTable}) => {
                     <span>Trạng thái</span>
                     <select name="Caterogy_Name" id="" className='p-1 border rounded-lg border-mainColor' onChange={(e)=>handleInput(e)} placeholder='--Danh mục--'>
                             <option key={-1} data-id={''} >[Tất cả]</option>
-                            <option key={2} data-id={''} >Còn hàng</option>
-                            <option key={3} data-id={''} >Hết hàng</option>
+                            <option key={2} data-id={'N'} >Còn hàng</option>
+                            <option key={3} data-id={'Y'} >Hết hàng</option>
                        </select>
                 </div>
                 <div className='flex flex-row items-center gap-x-3'>

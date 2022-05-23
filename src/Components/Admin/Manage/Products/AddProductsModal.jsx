@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetFromToPaging, GetIdByLinkShopee } from '../../../../Lib/CommondFunction';
 import { GetDetailByIdItemIdshop } from '../../../../httpApiClientInterface/ApiShopeeHelper';
-import { ProductsUpdate, search } from '../../../../httpApiClientInterface/ApiProduct';
+import { ProductsInsert, search } from '../../../../httpApiClientInterface/ApiProduct';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
@@ -83,7 +83,7 @@ const AddProducts = ({setTable})=>{
             })
         )
       
-        ProductsUpdate(user.token,arrProducts).then((data)=>{
+        ProductsInsert(user.token,arrProducts).then((data)=>{
             if(data>0){
                 successModal("Thêm thành công")
             }
@@ -131,7 +131,7 @@ const AddProducts = ({setTable})=>{
                     <div className='px-2 py-3 mb-2 bg-gray-200 rounded-md'>
                         <input name="Name"  type="text" value={productInfo.Name} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
-                    <label htmlFor="" className='mb-2'>Gía <span className='text-red-600 '>(*)</span></label>
+                    <label htmlFor="" className='mb-2'>Giá <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
                         <input name="Price"  type="text" value={productInfo.Price} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>

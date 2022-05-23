@@ -1,29 +1,37 @@
 import React, { useState } from 'react';
 import { categoriesItemEdit } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
-import { modalConfirm } from '../../../ModalConfirm/ModalConfirm';
 
-const EditCategories = ({setEditModal,editCategories}) => {
-    const user = JSON.parse(sessionStorage.getItem("UserLogged"))
-    const [data,setData] = useState(editCategories)
+
+const EditCategories = ({setEditModal,category_Info}) => {
+    const [data,setData] = useState(JSON.parse(category_Info))
+
     const handleEdit = (e)=>{
         setData({
             ...data,
             [e.target.name]:e.target.value
-
         })
     }
+
     const handleEditApi=()=>{
-        setEditModal(false)
+        const user = JSON.parse(sessionStorage.getItem("UserLogged"))
+        setData({
+            ...data,
+            modified_By : user.user_Name,
+            modified_Date : new Date()
+        })
+        console.log(data)
         categoriesItemEdit(data,user.token).then((data)=>{
             if(data > 0){
-                successModal("Chỉnh sửa thành công")
+                setEditModal(false)
+                successModal("Chỉnh sửa thành công!")
             }
             else{
-                failedModal("Chỉnh sưa thất bại")
+                failedModal("Chỉnh sửa thất bại!")
             }
         })
     }
+
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
             <div className='absolute inset-0 bg-black bg-opacity-40'></div>
@@ -38,12 +46,12 @@ const EditCategories = ({setEditModal,editCategories}) => {
                 <div className='flex flex-col mb-3 overflow-y-scroll modal-body w-[1100px] h-[300px] p-4'>
                     <label htmlFor="" className='mb-2'>Tên danh mục</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input onChange={handleEdit} name='Name' value={data.Name}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Tên danh mục"/>
+                        <input onChange={handleEdit} name='Name' value={data.Name || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Tên danh mục"/>
                     </div>
                  
                     <label htmlFor="" className='mb-2'>Mô tả</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <textarea onChange={handleEdit} name='Note'  value={data.Note}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Mô tả"/>
+                        <textarea onChange={handleEdit} name='Note'  value={data.Note || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Mô tả"/>
                     </div>
 
                 </div> 

@@ -1,10 +1,8 @@
-import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; 
-import { toast } from 'react-toastify';
 import { BaseHttpsService } from '../Lib/Commomdata';
-export const ProductsUpdate = async (token,data) => {
+export const ProductsInsert = async (token,data) => {
     let _result = -1
-    await fetch('https://localhost:44339/api/products/insert', {
+    await fetch(`${BaseHttpsService}/api/products/insert`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -78,7 +76,6 @@ export const getDetail = async (id,token)=>{
     return detailList
 }
 export const productItemEdit= async (data,token)=>{
-    console.log(data)
     let _result = -1
     await fetch(`${BaseHttpsService}/api/products/update`, {
         method: 'PUT',

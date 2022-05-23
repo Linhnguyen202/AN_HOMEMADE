@@ -7,7 +7,6 @@ import { failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
 const EditProduct = ({setEditModal,editProduct,products}) => {
     const [editItem,setEditItem] = useState(editProduct)
-    console.log(editItem)
     const [categoriyList,setCategoryList] = useState()
     const handleEditProducts = (e)=>{        
         if(e.target.name === "Price"){
@@ -34,7 +33,6 @@ const EditProduct = ({setEditModal,editProduct,products}) => {
             Object.entries(arrProducts).map((item)=>{
                 return item.map((value)=>{
                     if(value === null)
-                    return "linh"
                     return value
                 })
             })

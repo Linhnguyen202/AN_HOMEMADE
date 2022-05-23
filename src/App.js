@@ -25,7 +25,7 @@ function App() {
            <Route path="/products/:productId" element={<ProductsDetail></ProductsDetail>}></Route>
         </Route>
         {/* admin */}
-        <Route path="/Admin" element={<Form setisLoggedIn={setisLoggedIn}></Form>}></Route>
+        <Route path="/Admin/login" element={<Form setisLoggedIn={setisLoggedIn}></Form>}></Route>
         <Route path={"/Admin/Manage"} element={<Protected isLoggedIn={isLoggedIn}><Manage></Manage></Protected>}></Route> 
    
         

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { CategoriesUpdate } from '../../../../httpApiClientInterface/ApiCategories';
+import { CategoriesInsert } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
-const AddCategories= ({setTableAding})=>{
+const AddCategories= ({setmodalAddCate})=>{
     const user = JSON.parse(sessionStorage.getItem("UserLogged")) || ""
     const [data,setData] = useState({
         name:"",
@@ -13,19 +13,17 @@ const AddCategories= ({setTableAding})=>{
         modified_By: user.user_Name || "",
         modified_Date:new Date(),
         deleted: 0
-
     })
     const handleInput=(e)=>{
         setData({
             ...data,
             [e.target.name]:e.target.value
-
         })
     }
-    const handleUpdate=()=>{
+    const handleSubmit=()=>{
         var user = JSON.parse(sessionStorage.getItem("UserLogged"))
    
-        CategoriesUpdate(data,user.token).then((data)=>{
+        CategoriesInsert(data,user.token).then((data)=>{
             if(data>0){
                 successModal("Thêm thành công")
             }
@@ -33,7 +31,7 @@ const AddCategories= ({setTableAding})=>{
                 failedModal("Thêm thất bại")
             }
         })
-        setTableAding(false) 
+        setmodalAddCate(false) 
     }
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
@@ -43,7 +41,7 @@ const AddCategories= ({setTableAding})=>{
                 <div className='flex justify-between p-2 shadow modal-header'>
                     <h3 className='text-2xl font-bold text-center text-red-800'>Thêm danh mục</h3>
                     <div className='p-1 text-right '>
-                        <button className='' onClick={()=>setTableAding(false)}>X</button>
+                        <button className='' onClick={()=>setmodalAddCate(false)}>X</button>
                     </div>
                 </div>
                 <div className='flex flex-col mb-3 overflow-y-scroll modal-body w-[1100px] h-[300px] p-4'>
@@ -60,8 +58,8 @@ const AddCategories= ({setTableAding})=>{
                 </div> 
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={handleUpdate} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor'>Thêm</button>
-                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setTableAding(false)}>Quay lại</button>
+                        <button onClick={handleSubmit} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor'>Thêm</button>
+                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setmodalAddCate(false)}>Quay lại</button>
                     </div>
                 </div>
             </div>
