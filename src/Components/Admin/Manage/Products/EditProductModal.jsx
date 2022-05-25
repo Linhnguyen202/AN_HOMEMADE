@@ -1,48 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import { productItemEdit } from '../../../../httpApiClientInterface/ApiProduct';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
-import { data } from 'autoprefixer';
-import { toast } from 'react-toastify';
 import { failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
-const EditProduct = ({setEditModal,editProduct,products}) => {
-    const [editItem,setEditItem] = useState(editProduct)
+const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
+    const [data,setData] = useState(JSON.parse(tempProductInfo))
     const [categoriyList,setCategoryList] = useState()
     const handleEditProducts = (e)=>{        
         if(e.target.name === "Price"){
-            setEditItem({
-                ...editItem, 
+            setData({
+                ...data, 
                 [e.target.name]:parseFloat(e.target.value)?parseFloat(e.target.value): 0})     
         }
         else if(e.target.name === "Rating_Star"){
-            setEditItem({
-                ...editItem, 
+            setData({
+                ...data, 
                 [e.target.name]:parseInt(e.target.value)?parseFloat(e.target.value): 0})     
         }
         else{
-            setEditItem({
-                ...editItem, 
+            setData({
+                ...data, 
                 [e.target.name]:e.target.value})   
         }
         
     }
     const  handleEditdata = ()=>{
         const user = JSON.parse(sessionStorage.getItem("UserLogged"))
-        let arrProducts = editItem;
+        let arrProducts = data;
         arrProducts = Object.fromEntries(
             Object.entries(arrProducts).map((item)=>{
                 return item.map((value)=>{
                     if(value === null)
+                    return " "
                     return value
                 })
             })
         )
-        
+        console.log(arrProducts)
         productItemEdit(arrProducts,user.token).then((success)=>{
+            console.log(success)
             if(success > 0)
             {
                successModal("Cập nhật sản phẩm thành công! ")
                 setEditModal(false)
+                searchProducts(1)
             }else{
                 failedModal("Cập nhật sản phẩm không thành công!")
             }
@@ -78,42 +79,42 @@ const EditProduct = ({setEditModal,editProduct,products}) => {
                     </div>
                     <label htmlFor="" className='mb-2'>Tên SP <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 mb-2 bg-gray-200 rounded-md'>
-                        <input name="Name"  type="text" value={editItem.Name} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name="Name"  type="text" value={data.Name} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Giá <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name="Price"  type="text" value={editItem.Price} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name="Price"  type="text" value={data.Price} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                     
                     <label htmlFor="" className='mb-2'>Giảm giá<span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name='Discount'  type="text" value={editItem.Discount} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name='Discount'  type="text" value={data.Discount} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Số lượng <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input  name='Stock' type="text" value={editItem.Stock} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input  name='Stock' type="text" value={data.Stock} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Xuất xứ <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name="Origin"  type="text" value={editItem.Origin} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name="Origin"  type="text" value={data.Origin} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Hãng <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name="Brand"  type="text" value={editItem.Brand} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name="Brand"  type="text" value={data.Brand} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Mô tả <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <textarea name='Description'  type="text" value={editItem.Description} onChange={(e)=>handleEditProducts(e)}   className='w-full h-[200px] text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <textarea name='Description'  type="text" value={data.Description} onChange={(e)=>handleEditProducts(e)}   className='w-full h-[200px] text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                     
                     <label htmlFor="" className='mb-2'>Số bán</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name='Sold' type="text" value={editItem.Sold} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name='Sold' type="text" value={data.Sold} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                     
                     <label htmlFor="" className='mb-2'>Sao đánh giá</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name='Rating_Star' type="text" value={editItem.Rating_Star} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name='Rating_Star' type="text" value={data.Rating_Star} onChange={(e)=>handleEditProducts(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
                     </div>
                 </div>
                 <div  className='shadow-3xl footer modal-footer'>

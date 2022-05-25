@@ -7,8 +7,7 @@ export const modalConfirm = (ApiFunction,data,token,success,failed) => {
         customUI: ({ onClose }) => {
           return (
             <div className='custom-ui'>
-              <h1>Are you sure?</h1>
-              <p>You want to delete this file?</p>
+              <h1>Bạn có chắc muốn xóa trường này?</h1>
               <div>
                 <button className='btn-accept' onClick={() => {
                     console.log(data)
@@ -21,8 +20,8 @@ export const modalConfirm = (ApiFunction,data,token,success,failed) => {
                       }
                     })
                   onClose()
-                }}>Yes, Delete it!</button>
-                <button className='btn-reject' onClick={onClose}>No</button>
+                }}>Đồng ý</button>
+                <button className='btn-reject' onClick={onClose}>Hủy</button>
               </div>
             </div> 
           

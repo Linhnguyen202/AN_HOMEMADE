@@ -23,7 +23,7 @@ const Form = ({setisLoggedIn}) => {
                 if(user.user_Name !== null ){       
                     setCheck(false)
                     setisLoggedIn(true)
-                     navigate('/admin/manage'); 
+                     navigate('/admin/home'); 
                     //lưu người dùng sau khi đăng nhập thành công
                     sessionStorage.setItem("UserLogged", JSON.stringify(user));  
                     

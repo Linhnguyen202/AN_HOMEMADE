@@ -76,6 +76,7 @@ export const getDetail = async (id,token)=>{
     return detailList
 }
 export const productItemEdit= async (data,token)=>{
+    console.log(data)
     let _result = -1
     await fetch(`${BaseHttpsService}/api/products/update`, {
         method: 'PUT',
@@ -93,4 +94,21 @@ export const productItemEdit= async (data,token)=>{
     })
 
     return _result
+}
+export const GetById = async (id)=>{ 
+    let responseSearch
+    await fetch(`${BaseHttpsService}/api/products/get-by-id?id=${id}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    }) 
+    .then(res => res.json())
+    .then((data) => {
+        responseSearch = data
+    }).catch((e)=>{
+        console.log(e) 
+    })
+    return responseSearch
 }

@@ -11,6 +11,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import { useAuth } from "./context/authContext";
 import { useState } from "react";
 import Protected from "./Protected";
+import ProductsBox from "./Components/Admin/Manage/Products/ProductsBox";
+import CategoryBox from "./Components/Admin/Manage/Categories/CategoryBox";
 function App() {
   const {active,setActive} = useAuth()
   const [isLoggedIn, setisLoggedIn] = useState(null);
@@ -26,7 +28,11 @@ function App() {
         </Route>
         {/* admin */}
         <Route path="/Admin/login" element={<Form setisLoggedIn={setisLoggedIn}></Form>}></Route>
-        <Route path={"/Admin/Manage"} element={<Protected isLoggedIn={isLoggedIn}><Manage></Manage></Protected>}></Route> 
+        <Route element={<Protected isLoggedIn={isLoggedIn}><Manage></Manage></Protected>}>
+          <Route path="/Admin/home" element={<div></div>}></Route>
+          <Route path="/Admin/products" element={<ProductsBox></ProductsBox>}></Route>
+          <Route path="/Admin/category" element={<CategoryBox></CategoryBox>}></Route>
+        </Route> 
    
         
        

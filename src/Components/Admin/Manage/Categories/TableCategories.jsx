@@ -5,6 +5,7 @@ import { GetFromToPaging } from '../../../../Lib/CommondFunction';
 import DetailCategoryModal from './DetailCategoriesModal';
 import EditCategoryModal from './EditCategoriesModal';
 import DeleteCategoryModal from './DeleteCategoryModal';
+import {BookOpenIcon, TrashIcon,PencilAltIcon} from "@heroicons/react/outline"
 
 import ReactPaginate from 'react-paginate';
 
@@ -89,11 +90,11 @@ const TableCategories = ({setmodalAddCate}) => {
                         </thead>
                         
                         
-                            <TableItems setTempCategoryInfo={setTempCategoryInfo} listData={categories} setEditModal={setEditModal} setDetailModal={setDetailModal} setDeleteModal={setDeleteModal}></TableItems>        
+                            <TableItems searchCategory={searchCategory} setTempCategoryInfo={setTempCategoryInfo} listData={categories} setEditModal={setEditModal} setDetailModal={setDetailModal} setDeleteModal={setDeleteModal}></TableItems>        
                         
                     </table>
                     {detailModal ? <DetailCategoryModal setDetailModal={setDetailModal} category_Info={tempCategoryInfo}></DetailCategoryModal> : null}
-                    {editModal ? <EditCategoryModal category_Info={tempCategoryInfo} setEditModal={setEditModal}></EditCategoryModal> : null}   
+                    {editModal ? <EditCategoryModal searchCategory={searchCategory} category_Info={tempCategoryInfo} setEditModal={setEditModal}></EditCategoryModal> : null}   
                     {deleteModal ? <DeleteCategoryModal cate_Id={tempCategoryInfo.Id} setDeleteModal={setDeleteModal}></DeleteCategoryModal> : null}           
                 </div>
             
@@ -115,11 +116,12 @@ const TableCategories = ({setmodalAddCate}) => {
 };
 export default TableCategories;
 
-const TableItems = ({listData,setTempCategoryInfo,setDetailModal,setEditModal,setDeleteModal})=>{
+const TableItems = ({listData,setTempCategoryInfo,setDetailModal,setEditModal,setDeleteModal,searchCategory})=>{
     const showModalDetail=(cate_Id)=>{
         GetById(cate_Id).then((respone)=>{
-            setTempCategoryInfo(respone.jsonData )
+            setTempCategoryInfo(respone.jsonData)
             setDetailModal(true)
+            searchCategory(1)
         })  
     }
     const showModalEdit = (cate_Id)=>{
@@ -131,11 +133,11 @@ const TableItems = ({listData,setTempCategoryInfo,setDetailModal,setEditModal,se
 
     const showModalDelete = (cate_Id)=>{
         setTempCategoryInfo({
-        
             Id : cate_Id
         })
         
         setDeleteModal(true)
+        searchCategory(1)
     }
     return (
       <tbody>
@@ -147,21 +149,15 @@ const TableItems = ({listData,setTempCategoryInfo,setDetailModal,setEditModal,se
                         <td className="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">{item.Note || ""}</td>
                         <td className="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">{item.Created_By}</td>
                         <td className="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">{new Date(item.Created_Date ).toLocaleDateString()}</td>
-                        <td className="flex justify-center px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap gap-x-2">
-                            <button className='text-secondColor' onClick={()=>showModalDetail(item.Id)}>
-                                
-                                <img src='../../../../root/Img/icon-view-100.png' class="h-6 w-6"></img>
-                    
+                        <td className="flex justify-start px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap gap-x-2">
+                            <button className='text-secondColor' onClick={()=>showModalDetail(item.Id)}>         
+                               <BookOpenIcon className='w-6 h-6'></BookOpenIcon>
                             </button>
                             <button className='text-green-500' onClick={()=>showModalEdit(item.Id)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                                <PencilAltIcon className='w-6 h-6'></PencilAltIcon>
                             </button>
                             <button className='text-red-500' onClick={()=>showModalDelete(item.Id)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
+                                <TrashIcon className='w-6 h-6'></TrashIcon>
                             </button>
                         </td>
                     </tr>

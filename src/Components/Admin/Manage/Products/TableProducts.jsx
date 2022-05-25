@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { getDetail, DeleteItem, search } from '../../../../httpApiClientInterface/ApiProduct';
+import { getDetail, DeleteItem, search, GetById } from '../../../../httpApiClientInterface/ApiProduct';
 import { recordPerpage } from '../../../../Lib/Commomdata';
 import { GetFromToPaging } from '../../../../Lib/CommondFunction';
 import DetailProducts from './DetailProductsModal';
 import EditProduct from './EditProductModal';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
 import { modalConfirm } from '../../../ModalConfirm/ModalConfirm';
-
+import {BookOpenIcon, TrashIcon,PencilAltIcon} from "@heroicons/react/outline"
 const TableProducts = ({setTable}) => {
     const [totalRows,setTotalRow] = useState(0)
     const [pageCount, setPageCount] = useState(0);
@@ -17,8 +17,7 @@ const TableProducts = ({setTable}) => {
     //
     const [detailModal,setDetailModal] = useState(false)
     const [editModal,setEditModal] = useState(false)
-    const [detailproduct,setDetailProduct] = useState({})
-    const [editProduct,setEditProduct] = useState({})
+    const [tempProductInfo, setTempProductInfo] = useState({})
     const [keysearch,setKeySearch] = useState({
         name:"",
         brand:"",
@@ -133,11 +132,11 @@ const TableProducts = ({setTable}) => {
                             <th className='px-6 py-4 text-sm font-medium text-gray-900'>Chức năng</th>
                         </tr>
                     </thead>
-                        <TableItems setEditProduct={setEditProduct} setDetailProduct={setDetailProduct} setEditModal={setEditModal} setDetailModal={setDetailModal} listData={products} ></TableItems>        
+                        <TableItems  searchProducts={searchProducts}  setTempProductInfo={setTempProductInfo} setEditModal={setEditModal} setDetailModal={setDetailModal} listData={products} ></TableItems>        
                     
                 </table>
-                {detailModal ? <DetailProducts setDetailModal={setDetailModal} detailproduct={detailproduct}></DetailProducts> : null}
-                {editModal ? <EditProduct editProduct={editProduct} products={products} setEditModal={setEditModal}></EditProduct> : null}
+                {detailModal ? <DetailProducts setDetailModal={setDetailModal} tempProductInfo={tempProductInfo}></DetailProducts> : null}
+                {editModal ?  <EditProduct   searchProducts = {searchProducts} setEditModal={setEditModal} tempProductInfo={tempProductInfo} products={products} ></EditProduct> : null}
             </div>
             <div className="p-1 m-3">
                 <ReactPaginate
@@ -157,20 +156,27 @@ const TableProducts = ({setTable}) => {
 };
 export default TableProducts;
 
-const TableItems = ({listData,setDetailProduct,setDetailModal,setEditModal,setEditProduct})=>{
+const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,searchProducts})=>{
     const user = JSON.parse(sessionStorage.getItem("UserLogged"))
     const token = user ? user.token : ""
-    const openDetail=(data)=>{
-        setDetailProduct(data)
-        setDetailModal(true)
+    const showModalDetail=(pro_id)=>{
+        GetById(pro_id).then((response)=>{
+            setTempProductInfo(response.jsonData)
+             setDetailModal(true)
+        })
+
+        
     }
     const  ProductsDelete=({index,listData,token})=>{
         modalConfirm(DeleteItem,listData[index],token,"Xóa thành công","Xóa thất bại")
+        searchProducts(1)
     }
-    const openEdit = (data)=>{
-        console.log(data)
-        setEditProduct(data)
-        setEditModal(true)
+    const showModalEdit = (pro_id)=>{
+        GetById(pro_id).then((response)=>{
+            setTempProductInfo(response.jsonData)
+            setEditModal(true)
+        })
+        
     }
 
     return (
@@ -188,20 +194,14 @@ const TableItems = ({listData,setDetailProduct,setDetailModal,setEditModal,setEd
                         <th className="px-6 py-4 text-sm font-light text-left text-gray-900 whitespace-nowrap">{item.Created_By}</th>
                         <th className="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">{new Date(item.Created_Date).toLocaleDateString()}</th>
                         <th className="flex justify-center px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap gap-x-2">
-                            <button className='text-secondColor' onClick={()=>openDetail(listData[index])}>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
+                            <button className='text-secondColor' onClick={()=>showModalDetail(item.Id)}>
+                                <BookOpenIcon className='w-6 h-6'></BookOpenIcon>
                             </button>
                             <button className='text-red-500' onClick={()=>ProductsDelete({index,listData,token})}>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
+                                <PencilAltIcon className='w-6 h-6'></PencilAltIcon>
                             </button>
-                            <button className='text-green-500' onClick={()=>openEdit(listData[index])}>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                            <button className='text-green-500' onClick={()=>showModalEdit(item.Id)}>
+                                <TrashIcon className='w-6 h-6'></TrashIcon>
                             </button>
                         </th>
                     </tr>

@@ -3,7 +3,7 @@ import { categoriesItemEdit } from '../../../../httpApiClientInterface/ApiCatego
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
 
-const EditCategories = ({setEditModal,category_Info}) => {
+const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
     const [data,setData] = useState(JSON.parse(category_Info))
 
     const handleEdit = (e)=>{
@@ -25,6 +25,7 @@ const EditCategories = ({setEditModal,category_Info}) => {
             if(data > 0){
                 setEditModal(false)
                 successModal("Chỉnh sửa thành công!")
+                searchCategory(1)
             }
             else{
                 failedModal("Chỉnh sửa thất bại!")
