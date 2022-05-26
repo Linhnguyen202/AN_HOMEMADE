@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { categoriesItemEdit } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
+import { currentPageDefault } from '../../../../Lib/Commomdata';
 
 
 const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
@@ -15,17 +16,18 @@ const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
 
     const handleEditApi=()=>{
         const user = JSON.parse(sessionStorage.getItem("UserLogged"))
+       
         setData({
             ...data,
-            modified_By : user.user_Name,
-            modified_Date : new Date()
+            Modified_By : user.user_Name,
+            Modified_Date : new Date()
         })
-        console.log(data)
+      
         categoriesItemEdit(data,user.token).then((data)=>{
             if(data > 0){
                 setEditModal(false)
+                searchCategory(currentPageDefault)
                 successModal("Chỉnh sửa thành công!")
-                searchCategory(1)
             }
             else{
                 failedModal("Chỉnh sửa thất bại!")
@@ -58,8 +60,8 @@ const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
                 </div> 
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={handleEditApi} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor'>Lưu</button>
-                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setEditModal(false)}>Quay lại</button>
+                        <button onClick={handleEditApi} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>Lưu</button>
+                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setEditModal(false)}>Quay lại</button>
                     </div>
                 </div>
             </div>

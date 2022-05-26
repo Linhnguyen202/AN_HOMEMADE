@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { search, GetById } from '../../../../httpApiClientInterface/ApiCategories';
-import { recordPerpage } from '../../../../Lib/Commomdata';
+import { recordPerpage, currentPageDefault } from '../../../../Lib/Commomdata';
 import { GetFromToPaging } from '../../../../Lib/CommondFunction';
 import DetailCategoryModal from './DetailCategoriesModal';
 import EditCategoryModal from './EditCategoriesModal';
 import DeleteCategoryModal from './DeleteCategoryModal';
+import AddCategories from './AddCategoriesModal';
 import {BookOpenIcon, TrashIcon,PencilAltIcon} from "@heroicons/react/outline"
 
 import ReactPaginate from 'react-paginate';
 
-const TableCategories = ({setmodalAddCate}) => {
+const TableCategories = ({}) => {
     //paging param
-    const [currentPage,setCurrentPage] = useState(1)
+    const [currentPage,setCurrentPage] = useState(currentPageDefault)
     const [pageCount, setPageCount] = useState(0);
     const [totalRows,setTotalRow] = useState(0)
     const [itemOffset, setItemOffset] = useState(0);
     //modal
+    const [modalAddCate,setmodalAddCate] = useState(false)
     const [detailModal,setDetailModal] = useState(false)
     const [editModal,setEditModal] = useState(false)
     const [deleteModal,setDeleteModal] = useState(false)
@@ -31,20 +33,21 @@ const TableCategories = ({setmodalAddCate}) => {
         let pageInfor = GetFromToPaging(currentPage,recordPerpage,toRecord)
         toRecord = pageInfor.toRecord
         let fromRecord = pageInfor._FromRecord
+        console.log(keysearch)
         search(keysearch,fromRecord,toRecord).then((data)=>{
             setTotalRow(data.totalRows)
             setCategories([...JSON.parse(data.jsonData )])
         })      
     }
     useEffect(()=>{     
-        searchCategory(currentPage);
+        searchCategory(currentPageDefault);
     },[currentPage])
 
     const handleInput = (e)=>{
         setKeySearch(e.target.value)
     }
 
-    const handlePageClick = (event) => {
+    const ChangePage = (event) => {
         const newOffset = (event.selected * recordPerpage) % totalRows;
         setItemOffset(newOffset);
         setCurrentPage(event.selected + 1)
@@ -65,7 +68,7 @@ const TableCategories = ({setmodalAddCate}) => {
                 </div>
                 <div className='flex items-center '>
                     <button className='px-4 py-2 mx-2 text-sm text-white rounded-lg bg-[#32CD32]' onClick={()=>setmodalAddCate(true)}>Thêm mới</button>
-                    <button onClick={()=>searchCategory(1)} className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-[#32CD32]'>
+                    <button onClick={()=>searchCategory(currentPageDefault)} className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-[#32CD32]'>
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
@@ -88,25 +91,23 @@ const TableCategories = ({setmodalAddCate}) => {
                                 <th className='px-6 py-4 text-sm font-medium text-left text-gray-900'>Chức năng</th>
                             </tr>
                         </thead>
-                        
-                        
-                            <TableItems searchCategory={searchCategory} setTempCategoryInfo={setTempCategoryInfo} listData={categories} setEditModal={setEditModal} setDetailModal={setDetailModal} setDeleteModal={setDeleteModal}></TableItems>        
-                        
+                            <TableBody setTempCategoryInfo={setTempCategoryInfo} listData={categories} setEditModal={setEditModal} setDetailModal={setDetailModal} setDeleteModal={setDeleteModal}></TableBody>
                     </table>
+                    {modalAddCate ? <AddCategories searchCategory={searchCategory} setmodalAddCate={setmodalAddCate}></AddCategories> : null}
                     {detailModal ? <DetailCategoryModal setDetailModal={setDetailModal} category_Info={tempCategoryInfo}></DetailCategoryModal> : null}
                     {editModal ? <EditCategoryModal searchCategory={searchCategory} category_Info={tempCategoryInfo} setEditModal={setEditModal}></EditCategoryModal> : null}   
-                    {deleteModal ? <DeleteCategoryModal cate_Id={tempCategoryInfo.Id} setDeleteModal={setDeleteModal}></DeleteCategoryModal> : null}           
+                    {deleteModal ? <DeleteCategoryModal searchCategory={searchCategory} cate_Id={tempCategoryInfo.Id} setDeleteModal={setDeleteModal}></DeleteCategoryModal> : null}           
                 </div>
             
             <div className="p-1 m-3">
                 <ReactPaginate
                     breakLabel="..."
                     nextLabel=">"
-                    onPageChange={handlePageClick}
+                    onPageChange={ChangePage}
                     pageRangeDisplayed={5}
                     pageCount={pageCount}
                     previousLabel="<"
-                    renderOnZeroPageCount={null}
+                    renderOnZeroPageCount={""}
                     className="pagination"
                 />
             </div>
@@ -116,12 +117,11 @@ const TableCategories = ({setmodalAddCate}) => {
 };
 export default TableCategories;
 
-const TableItems = ({listData,setTempCategoryInfo,setDetailModal,setEditModal,setDeleteModal,searchCategory})=>{
+const TableBody = ({listData,setTempCategoryInfo,setDetailModal,setEditModal,setDeleteModal})=>{
     const showModalDetail=(cate_Id)=>{
         GetById(cate_Id).then((respone)=>{
             setTempCategoryInfo(respone.jsonData)
             setDetailModal(true)
-            searchCategory(1)
         })  
     }
     const showModalEdit = (cate_Id)=>{
@@ -137,7 +137,6 @@ const TableItems = ({listData,setTempCategoryInfo,setDetailModal,setEditModal,se
         })
         
         setDeleteModal(true)
-        searchCategory(1)
     }
     return (
       <tbody>

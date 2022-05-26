@@ -2,13 +2,14 @@ import React from 'react';
 import { DeleteItem } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 
-const DeleteCategory= ({setDeleteModal, cate_Id})=>{
+const DeleteCategory= ({setDeleteModal, cate_Id, searchCategory})=>{
     const DeleteCategor=()=>{
         var user = JSON.parse(sessionStorage.getItem("UserLogged"))
 
         DeleteItem(cate_Id, user.user_name, user.token).then((success)=>{
             if(success > 0){
                 setDeleteModal(false)
+                searchCategory(1)
                 successModal("Xóa danh mục thành công!")
             }
             else{
@@ -32,8 +33,8 @@ const DeleteCategory= ({setDeleteModal, cate_Id})=>{
                 </div> 
                 <div  className='footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={DeleteCategor} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor'>Đồng ý</button>
-                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setDeleteModal(false)}>Hủy</button>
+                        <button onClick={DeleteCategor} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>Đồng ý</button>
+                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setDeleteModal(false)}>Hủy</button>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 import { CategoriesInsert } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
+import { currentPageDefault } from '../../../../Lib/Commomdata';
 
-const AddCategories= ({setmodalAddCate})=>{
+const AddCategories= ({setmodalAddCate, searchCategory})=>{
     const user = JSON.parse(sessionStorage.getItem("UserLogged")) || ""
     const [data,setData] = useState({
         name:"",
@@ -26,12 +26,13 @@ const AddCategories= ({setmodalAddCate})=>{
         CategoriesInsert(data,user.token).then((data)=>{
             if(data>0){
                 successModal("Thêm thành công")
+                setmodalAddCate(false)
+                searchCategory(currentPageDefault)
             }
             else{
                 failedModal("Thêm thất bại")
             }
         })
-        setmodalAddCate(false) 
     }
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
@@ -58,8 +59,8 @@ const AddCategories= ({setmodalAddCate})=>{
                 </div> 
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={handleSubmit} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor'>Thêm</button>
-                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setmodalAddCate(false)}>Quay lại</button>
+                        <button onClick={handleSubmit} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>Thêm</button>
+                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setmodalAddCate(false)}>Quay lại</button>
                     </div>
                 </div>
             </div>
