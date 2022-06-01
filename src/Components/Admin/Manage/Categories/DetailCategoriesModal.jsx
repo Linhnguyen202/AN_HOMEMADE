@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const DetailCategories = ({setDetailModal, category_Info}) => {
 
     const [data,setData] = useState(JSON.parse(category_Info))
-
     return (
 //         
         <div className='fixed inset-0 flex items-center justify-center'>
@@ -32,7 +31,7 @@ const DetailCategories = ({setDetailModal, category_Info}) => {
                     </div>
                     <label htmlFor="" className='mb-2'>Ngày tạo</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input readOnly name='Name' value={data.Created_Date || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Ngày tạo"/>
+                        <input readOnly name='Name' value={new Date(data.Created_Date).toLocaleDateString()|| ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Ngày tạo"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Người sửa</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
@@ -40,7 +39,7 @@ const DetailCategories = ({setDetailModal, category_Info}) => {
                     </div>
                     <label htmlFor="" className='mb-2'>Ngày sửa</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input readOnly name='Name' value={data.Modified_Date || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Ngày sửa"/>
+                        <input readOnly name='Name' value={new Date(data.Modified_Date).toLocaleDateString() || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Ngày sửa"/>
                     </div>
 
                 </div> 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { search, GetById } from '../../../../httpApiClientInterface/ApiCategories';
 import { recordPerpage, currentPageDefault } from '../../../../Lib/Commomdata';
 import { GetFromToPaging } from '../../../../Lib/CommondFunction';
@@ -13,6 +13,7 @@ import ReactPaginate from 'react-paginate';
 const TableCategories = ({}) => {
     //paging param
     const [currentPage,setCurrentPage] = useState(currentPageDefault)
+    console.log(currentPage)
     const [pageCount, setPageCount] = useState(0);
     const [totalRows,setTotalRow] = useState(0)
     const [itemOffset, setItemOffset] = useState(0);
@@ -33,21 +34,20 @@ const TableCategories = ({}) => {
         let pageInfor = GetFromToPaging(currentPage,recordPerpage,toRecord)
         toRecord = pageInfor.toRecord
         let fromRecord = pageInfor._FromRecord
-        console.log(keysearch)
         search(keysearch,fromRecord,toRecord).then((data)=>{
             setTotalRow(data.totalRows)
             setCategories([...JSON.parse(data.jsonData )])
         })      
     }
     useEffect(()=>{     
-        searchCategory(currentPageDefault);
+        searchCategory(currentPage);
     },[currentPage])
-
+    
     const handleInput = (e)=>{
         setKeySearch(e.target.value)
     }
 
-    const ChangePage = (event) => {
+    const ChangePage = async (event) => {
         const newOffset = (event.selected * recordPerpage) % totalRows;
         setItemOffset(newOffset);
         setCurrentPage(event.selected + 1)
@@ -56,25 +56,30 @@ const TableCategories = ({}) => {
     useEffect(() => {
         const endOffset = itemOffset + recordPerpage;
         setPageCount(Math.ceil(totalRows / recordPerpage));
-    }, [totalRows, recordPerpage]);
-
+    }, [totalRows, itemOffset]);
+    
+    const handleSubmit=(e)=>{
+        e.preventDefault()
+        searchCategory(currentPageDefault)
+    }
     return (
         <div>
-         <div className='p-2 mt-3 bg-white border rounded-lg shadow'>
-             <div className='flex flex-wrap items-center gap-4'>
+         <div className='flex gap-2 p-2 mt-3 bg-white border rounded-lg shadow'>
+             <form className='flex flex-wrap items-center'>
                 <div className='flex items-center gap-x-3'>
                     <span>Tên</span>
                     <input onChange={handleInput} type="text" placeholder='Tim kiem' className='p-1 border rounded-lg border-mainColor' />
                 </div>
-                <div className='flex items-center '>
-                    <button className='px-4 py-2 mx-2 text-sm text-white rounded-lg bg-[#32CD32]' onClick={()=>setmodalAddCate(true)}>Thêm mới</button>
-                    <button onClick={()=>searchCategory(currentPageDefault)} className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-[#32CD32]'>
+                <div className='flex items-center '>  
+                    <button onClick={handleSubmit} className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-[#32CD32]'>
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
                 </div>
-            </div>
+            </form>
+            <button className='px-4 py-2 mx-2 text-sm text-white rounded-lg bg-[#32CD32]' onClick={()=>setmodalAddCate(true)}>Thêm mới</button>
+            
          </div>
             
 

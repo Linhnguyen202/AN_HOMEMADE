@@ -3,6 +3,7 @@ import { getDetail } from '../../../../httpApiClientInterface/ApiProduct';
 
 const DetailProducts = ({setDetailModal,tempProductInfo}) => {
     const [data,setData] = useState(JSON.parse(tempProductInfo))
+    console.log(data)
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
              <div className='absolute inset-0 bg-black bg-opacity-40'></div>
@@ -26,7 +27,7 @@ const DetailProducts = ({setDetailModal,tempProductInfo}) => {
                     </div>
                     <label htmlFor="" className='mb-2'>Ngày tạo</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input readOnly name='Name' value={data.Created_Date || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Ngày tạo"/>
+                        <input readOnly name='Name' value={new Date(data.Created_Date).toLocaleDateString() || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Ngày tạo"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Người sửa</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
@@ -34,13 +35,13 @@ const DetailProducts = ({setDetailModal,tempProductInfo}) => {
                     </div>
                     <label htmlFor="" className='mb-2'>Ngày sửa</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input readOnly name='Name' value={data.Modified_Date || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Ngày sửa"/>
+                        <input readOnly name='Name' value={new Date(data.Modified_Date).toLocaleDateString() || ""}   type="text"  className='w-full text-black bg-transparent outline-none ' placeholder="Ngày sửa"/>
                     </div>
 
                 </div> 
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setDetailModal(false)}>Thoát</button>
+                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setDetailModal(false)}>Thoát</button>
                     </div>
                 </div>
              </div>

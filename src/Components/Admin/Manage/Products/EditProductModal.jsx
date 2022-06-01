@@ -119,8 +119,8 @@ const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
                 </div>
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={handleEditdata} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor'>Lưu</button>
-                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-secondColor' onClick={()=>setEditModal(false)}>Quay lại</button>
+                        <button onClick={handleEditdata} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>Lưu</button>
+                        <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setEditModal(false)}>Quay lại</button>
                     </div>
                 </div>
             </div>     

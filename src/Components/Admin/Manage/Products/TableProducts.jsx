@@ -8,13 +8,15 @@ import EditProduct from './EditProductModal';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
 import { modalConfirm } from '../../../ModalConfirm/ModalConfirm';
 import {BookOpenIcon, TrashIcon,PencilAltIcon} from "@heroicons/react/outline"
-const TableProducts = ({setTable}) => {
+import AddProducts from './AddProductsModal';
+const TableProducts = () => {
     const [totalRows,setTotalRow] = useState(0)
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
     const [currentPage,setCurrentPage] = useState(1)
     const [categoriyList,setCategoryList] = useState()
     //
+    const [table,setTable] = useState(false)
     const [detailModal,setDetailModal] = useState(false)
     const [editModal,setEditModal] = useState(false)
     const [tempProductInfo, setTempProductInfo] = useState({})
@@ -66,10 +68,15 @@ const TableProducts = ({setTable}) => {
             setCategoryList([...JSON.parse(data.jsonData )])
         })      
     },[])
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        searchProducts(1)
+
+    }
     return (
         <div>
-        <div className='p-2 mt-3 bg-white border rounded-lg shadow'>
-            <div className='flex flex-wrap items-center gap-4'>
+        <div className='flex p-2 mt-3 bg-white border rounded-lg shadow'>
+            <form className='flex flex-wrap items-center gap-4'>
                 <div className='flex flex-row items-center gap-x-3 '>
                     <span>Tên</span>
                     <input onChange={handleInput} name="name"  type="text" placeholder='Tên sp' className='p-1 border rounded-lg border-mainColor' />
@@ -105,16 +112,15 @@ const TableProducts = ({setTable}) => {
                     <span>Đến</span>
                     <input name="max_price" type="text"  onChange={handleInput} placeholder='vnđ' className='p-1 border rounded-lg border-mainColor' />
                 </div>
-                <div className='flex items-center '>
-                    <button className='px-3 py-1 mx-2 text-white rounded-lg bg-[#32CD32]' onClick={()=>setTable(true)}>Thêm mới</button>
-                    <button className='px-2 py-1 mx-2 text-sm text-white rounded-lg bg-[#32CD32]' onClick={()=>searchProducts(1)}>
+                <div className='flex items-center '>   
+                    <button className='px-2 py-2 mx-2 text-sm text-white rounded-lg bg-[#32CD32]' onClick={handleSubmit}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
+                    <span className='px-3 py-2 mx-2 cursor-pointer text-white rounded-lg bg-[#32CD32]' onClick={()=>setTable(true)}>Thêm mới</span>
                 </div>
-               
-            </div>
+            </form>
         </div>
         <div className='mt-4 bg-white border rounded-lg shadow'>
             <div className='h-full overflow-x-auto'>
@@ -137,6 +143,7 @@ const TableProducts = ({setTable}) => {
                 </table>
                 {detailModal ? <DetailProducts setDetailModal={setDetailModal} tempProductInfo={tempProductInfo}></DetailProducts> : null}
                 {editModal ?  <EditProduct   searchProducts = {searchProducts} setEditModal={setEditModal} tempProductInfo={tempProductInfo} products={products} ></EditProduct> : null}
+                {table ? <AddProducts  searchProducts={searchProducts} setTable={setTable}></AddProducts> : null}           
             </div>
             <div className="p-1 m-3">
                 <ReactPaginate
@@ -198,10 +205,10 @@ const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,se
                                 <BookOpenIcon className='w-6 h-6'></BookOpenIcon>
                             </button>
                             <button className='text-red-500' onClick={()=>ProductsDelete({index,listData,token})}>
-                                <PencilAltIcon className='w-6 h-6'></PencilAltIcon>
-                            </button>
-                            <button className='text-green-500' onClick={()=>showModalEdit(item.Id)}>
                                 <TrashIcon className='w-6 h-6'></TrashIcon>
+                            </button>
+                            <button className='text-green-500' onClick={()=>showModalEdit(item.Id)}>         
+                                <PencilAltIcon className='w-6 h-6'></PencilAltIcon>
                             </button>
                         </th>
                     </tr>

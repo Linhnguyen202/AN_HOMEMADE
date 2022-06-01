@@ -6,7 +6,6 @@ import { currentPageDefault } from '../../../../Lib/Commomdata';
 
 const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
     const [data,setData] = useState(JSON.parse(category_Info))
-
     const handleEdit = (e)=>{
         setData({
             ...data,
@@ -22,17 +21,27 @@ const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
             Modified_By : user.user_Name,
             Modified_Date : new Date()
         })
-      
-        categoriesItemEdit(data,user.token).then((data)=>{
-            if(data > 0){
-                setEditModal(false)
-                searchCategory(currentPageDefault)
-                successModal("Chỉnh sửa thành công!")
-            }
-            else{
-                failedModal("Chỉnh sửa thất bại!")
-            }
-        })
+        const isEmptyObject = (obj) => {
+            return Object.keys(obj).length === 0 && obj.constructor === Object;
+        }
+        
+        let checkEmpty = isEmptyObject(data)
+        if(checkEmpty){
+            failedModal("Hãy điền đầy đủ")
+        }
+        else{
+                categoriesItemEdit(data,user.token).then((data)=>{
+                    if(data > 0){
+                        setEditModal(false)
+                        searchCategory(currentPageDefault)
+                        successModal("Chỉnh sửa thành công!")
+                    }
+                    else{
+                        failedModal("Chỉnh sửa thất bại!")
+                    }
+                })
+        }
+       
     }
 
     return (

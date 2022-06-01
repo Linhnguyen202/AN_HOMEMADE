@@ -22,17 +22,26 @@ const AddCategories= ({setmodalAddCate, searchCategory})=>{
     }
     const handleSubmit=()=>{
         var user = JSON.parse(sessionStorage.getItem("UserLogged"))
-   
-        CategoriesInsert(data,user.token).then((data)=>{
-            if(data>0){
-                successModal("Thêm thành công")
-                setmodalAddCate(false)
-                searchCategory(currentPageDefault)
-            }
-            else{
-                failedModal("Thêm thất bại")
-            }
-        })
+        const isEmptyObject = (obj) => {
+            return Object.keys(obj).length === 0 && obj.constructor === Object;
+        }
+        let checkEmpty = isEmptyObject(data)
+        if(checkEmpty){
+            failedModal("Hãy điền đầy đủ")
+        }
+        else{
+            CategoriesInsert(data,user.token).then((data)=>{
+                if(data>0){
+                    successModal("Thêm thành công")
+                    setmodalAddCate(false)
+                    searchCategory(currentPageDefault)
+                }
+                else{
+                    failedModal("Thêm thất bại")
+                }
+            })
+        }
+        
     }
     return (
         <div className='fixed inset-0 flex items-center justify-center'>

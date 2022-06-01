@@ -22,7 +22,6 @@ export const ProductsInsert = async (token,data) => {
 }
 
 export const search= async (keySearch,startRow,endRow,orderBy="")=>{
-    
     let responseSearch
     await fetch(`${BaseHttpsService}/api/products/search?keySearch=${keySearch}&startRow=${startRow}&endRow=${endRow}&orderBy=${orderBy}`)
     .then(res => res.json())
@@ -36,8 +35,6 @@ export const search= async (keySearch,startRow,endRow,orderBy="")=>{
     })
     return responseSearch
 }
-
-
 export const DeleteItem = async (data,token)=>{
         let _result = -1
         await fetch(`${BaseHttpsService}/api/products/delete?id=${data.Id}`, {

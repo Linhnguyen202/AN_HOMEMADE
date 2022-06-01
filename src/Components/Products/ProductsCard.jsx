@@ -1,21 +1,55 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import LoadingSkeleton from '../loading/LoadingSeleton';
 
-const ProductsCard = () => {
+const ProductsCard = ({item}) => {
+    const navigate = useNavigate();
+    if(!item){
+        return
+    }
     return (
-        <div className='flex flex-col  p-3 transition-all mb-10  bg-[main-color] rounded-lg cursor-pointer select-none product-card hover:shadow-2xl'>
+        <div className='flex flex-col border  p-3 transition-all mb-10  bg-[main-color] rounded-lg cursor-pointer select-none product-card hover:shadow-2xl'>
             <div>
-                <img src="https://static.wixstatic.com/media/651a17_2cc52e5a3e394508ae2cc7c4c488fc87~mv2.jpg/v1/fill/w_233,h_233,al_c,q_80,usm_0.66_1.00_0.01/651a17_2cc52e5a3e394508ae2cc7c4c488fc87~mv2.webp" alt="" className="w-full h-[260px] rounded-lg mb-2 object-cover"/>
+                <img src={`https://cf.shopee.vn/file/${item.Image}?fbclid=${item.Image}`}/>
             </div> 
-            <div className='flex flex-col flex-1 gap-3 p-3'>
-                <h3 className='mb-3 text-lg font-bold text-black'>Sáp vuốt tóc FIKA Version 2021</h3>
+            <div className='flex flex-col flex-1 p-3'>
+                <h3 className='mb-3  text-lg font-bold text-black truncate ...'>{item.Name}</h3>
                 <div className='flex justify-between'>
-                    <span className='block text-center text-black'>370.000 ₫</span>
-                    <span className='block text-center text-black'>Da ban:{30}</span>
+                    <span className='block text-center text-black'>{item.Price} ₫</span>
+                    <span className='block text-center text-black'>Da ban:{item.Sold}</span>
                 </div>
-                <button className='w-full py-2 text-white transition-opacity rounded-lg bg-secondColor hover:opacity-80'>Xem</button>
+                 <button onClick={()=>navigate(`/products/${item.Id}`)} className='w-full py-2 text-white transition-opacity rounded-lg bg-secondColor hover:opacity-80'>Xem</button>
+            
+               
             </div>
         </div>
     );
 };
 
 export default ProductsCard;
+
+export const ProductCartSkeleton = ()=>{
+    return (
+        <div className='flex flex-col border  p-3 transition-all mb-10  bg-[main-color] rounded-lg cursor-pointer select-none product-card hover:shadow-2xl'>
+        <div>
+            <LoadingSkeleton width="100%" height="200px"></LoadingSkeleton>
+        </div> 
+        <div className='flex flex-col flex-1 p-3'>
+            <h3 className='mb-3  text-lg font-bold text-black truncate ...'>
+                <LoadingSkeleton width="100%" height="20px"></LoadingSkeleton> 
+            </h3>
+            <div className='flex justify-between'>
+                <span className='block text-center text-black'>
+                    <LoadingSkeleton width="50px" height="20px"></LoadingSkeleton>
+                </span>
+                <span className='block text-center text-black'>
+                    <LoadingSkeleton width="30px" height="20px"></LoadingSkeleton>
+                </span>
+            </div>
+            
+        
+           
+        </div>
+    </div>
+    )
+}

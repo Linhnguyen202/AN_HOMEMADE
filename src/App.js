@@ -16,7 +16,6 @@ import CategoryBox from "./Components/Admin/Manage/Categories/CategoryBox";
 function App() {
   const {active,setActive} = useAuth()
   const [isLoggedIn, setisLoggedIn] = useState(null);
-  console.log( sessionStorage.getItem("UserLogged"))
   return (
     <div className="App">
     <Routes>
