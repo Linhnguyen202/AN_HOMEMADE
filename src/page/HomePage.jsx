@@ -1,21 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ProducsNewList from '../Components/Products/ProducsNew';
 import ProductSesionList from '../Components/Products/ProductCardSesion';
 import ProductsCard from '../Components/Products/ProductsCard';
 import ProductsList from '../Components/Products/ProductsList';
 import About from '../Components/About/About'
+import { search } from '../httpApiClientInterface/ApiProduct';
 
 const HomePage = () => {
+    const [keysearch,setKeySearch] = useState({
+        name:"",
+        brand:"",
+        category_id:"",
+        startus:"",
+        min_price:"",
+        max_price:""
+    })
+    const [products,setProducts]=useState([])
+    const [newProducts,setNewProducts]=useState([])
+    const [favorProducts,setFavoNewProducts]=useState([])
+    useEffect(()=>{
+        search("").then((data)=>{
+            setProducts([...JSON.parse(data.jsonData)])
+            setNewProducts([...JSON.parse(data.jsonData)])
+            setFavoNewProducts([...JSON.parse(data.jsonData)])
+        })  
+    },[])
     return (
         <section className="pb-20 mb-10 movies-layout page-container">
-            <ProductSesionList></ProductSesionList>
+            <div>
+                 <ProductSesionList products={products}></ProductSesionList>
+            </div>
             <div className='w-full max-w-[1000px] m-auto mb-11 text-center'>
                 <span className='block mb-3 text-sm'>AN_HOMEMADE</span>
                 <h3 className='text-3xl font-bold mb-14 '>PICKS FOR THIS SEASON</h3>
                 <div className="grid max-w-[350px] mx-auto sm:max-w-[730px] lg:max-w-none grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
-                    <ProductsCard></ProductsCard>
-                    <ProductsCard></ProductsCard>
-                    <ProductsCard></ProductsCard>
+                    {newProducts.length > 0 && newProducts.splice(1,3).map((item)=>{
+                        return (
+                            <ProductsCard key={item.Id} item={item}></ProductsCard>
+                        )
+                    })}
                 </div>
             </div>
            

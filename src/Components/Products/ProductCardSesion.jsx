@@ -1,28 +1,31 @@
-import React from 'react';
-
-const ProductSesionList = () => {
+import React, { useEffect,useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {search} from '../../httpApiClientInterface/ApiProduct'
+const ProductSesionList = ({products}) => {
     return (
         <div className='md:grid md:grid-cols-4  hidden grid-cols-1 sm:grid-cols-2 mx-10 gap-y-5 lg:mx-0 lg:h-[360px] mb-20 gap-x-4'>
-           <ProductSesionItem></ProductSesionItem>
-           <ProductSesionItem></ProductSesionItem>
-           <ProductSesionItem></ProductSesionItem>
-           <ProductSesionItem></ProductSesionItem>
+        {products.length > 0 && products.splice(1,4).map((item)=>{
+            return (
+                <ProductSesionItem key={item.Id} item={item}></ProductSesionItem>
+            )
+        })}
         </div>
        
     );
 };
 
 export default ProductSesionList;
-const ProductSesionItem = ()=>{
+const ProductSesionItem = ({item})=>{
+    const navigate = useNavigate();
     return (
         <div className='relative overflow-hidden transition-all border shadow-2xl cursor-pointer select-none group product-card'>
             <div className="absolute inset-0 z-3  bg-gradient-to-t overlay from-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0.2)]"></div>
             <div className='w-full h-full'>
-                <img src="https://static.wixstatic.com/media/651a17_866677e871e840619b4d4447d8018533~mv2.jpg/v1/fill/w_233,h_233,al_c,q_80,usm_0.66_1.00_0.01/651a17_866677e871e840619b4d4447d8018533~mv2.webp" alt="" className="w-full h-full transition-all duration-500 object-fit group-hover:scale-110"/>
+                <img src={`https://cf.shopee.vn/file/${item.Image}?fbclid=${item.Image}`} className="object-contain"/>
             </div> 
-            <div className='absolute bottom-4 left-6 '>
-                <h3 className='text-xl text-white uppercase'>Hust</h3>
-                <span className='text-sm text-white uppercase'>louis vuitton</span>
+            <div className='absolute inset-0 transition-all opacity-0 group-hover:opacity-100 '>
+                <button onClick={()=>navigate(`/products/${item.Id}`)} className="absolute z-20 p-4 text-white rounded-lg -translate-x-2/4 -translate-y-2/4 left-2/4 top-2/4 bg-secondColor">Xem sản phẩm</button>
+                <div className="w-full h-full bg-black bg-opacity-40 "></div>
             
             </div>
         </div>
