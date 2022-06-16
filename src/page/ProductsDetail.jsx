@@ -65,7 +65,7 @@ const ProductsDetail = () => {
                         
                     </div>
                     <span className='px-3 py-5 text-xl border shadow-sm text-secondColor'>{loading ? `${data.Price} ₫` :  <LoadingSkeleton width="100%" height="20px"></LoadingSkeleton> }</span>
-                    {loading ? <button className='w-2/4 px-5 py-3 text-white rounded-md shadow-2xl mb-11 bg-secondColor'>Link Sản phẩm</button> : <LoadingSkeleton width="100%" height="40px" radius="6px"></LoadingSkeleton>}
+                    {loading ? <button className='w-2/4 px-5 py-3 text-white rounded-md shadow-2xl mb-11 bg-secondColor'>Đặt hàng</button> : <LoadingSkeleton width="100%" height="40px" radius="6px"></LoadingSkeleton>}
                     
                 </div>
             </div>

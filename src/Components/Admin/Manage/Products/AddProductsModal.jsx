@@ -117,10 +117,10 @@ const AddProducts = ({searchProducts,setTable})=>{
                     </div>
                 </div>
                 <div className='flex flex-col mb-3 overflow-y-scroll modal-body w-[1100px] h-[500px] p-4'>
-                    <label htmlFor="" className='mb-2'>Link sản phẩm <span className='text-red-600 '>(*)</span></label>
+                    <label htmlFor="" className='mb-2'>Đặt hàng <span className='text-red-600 '>(*)</span></label>
                     <div className='flex items-center gap-x-3'>
                         <div className='flex-1 px-2 py-3 bg-gray-200 rounded-md'>
-                            <input type="text" onChange={(e)=>setlinkProduct(e.target.value)}  name="Name"  className='w-full text-black bg-transparent outline-none ' placeholder="Dien Link san pham"/>                  
+                            <input type="text" onChange={(e)=>setlinkProduct(e.target.value)}  name="Name"  className='w-full text-black bg-transparent outline-none ' placeholder="Điền link sản phẩm"/>                  
                         </div>
                         <button onClick={GetInfoByLink} className='right-0 px-5 py-3 text-white border rounded-lg bg-[#32CD32]'>Lấy thông tin</button>
                     </div>
@@ -136,11 +136,11 @@ const AddProducts = ({searchProducts,setTable})=>{
                     </div>
                     <label htmlFor="" className='mb-2'>Tên <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 mb-2 bg-gray-200 rounded-md'>
-                        <input name="Name"  type="text" value={productInfo.Name || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name="Name"  type="text" value={productInfo.Name || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Điền tên sản phẩm"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Giá <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name="Price"  type="text" value={ productInfo.Price || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name="Price"  type="text" value={ productInfo.Price || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Điền giá sản phẩm"/>
                     </div>
                     
                     <label htmlFor="" className='mb-2'>Giảm giá<span className='text-red-600 '>(*)</span></label>
@@ -149,38 +149,38 @@ const AddProducts = ({searchProducts,setTable})=>{
                     </div>
                     <label htmlFor="" className='mb-2'>Số lượng <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input  name='Stock' type="text"  value={productInfo.Stock || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input  name='Stock' type="text"  value={productInfo.Stock || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Điền số lượng sản phẩm"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Xuất xứ <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name="Origin"  type="text" value={productInfo.Origin || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name="Origin"  type="text" value={productInfo.Origin || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Điền xuất xứ sản phẩm"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Hãng <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name="Brand"  type="text" value={productInfo.Brand || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name="Brand"  type="text" value={productInfo.Brand || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Điền hãng sản phẩm"/>
                     </div>
                     <label htmlFor="" className='mb-2'>Mô tả <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <textarea name='Description'  type="text" value={productInfo.Description || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full h-[200px] text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <textarea name='Description'  type="text" value={productInfo.Description || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full h-[200px] text-black bg-transparent outline-none ' placeholder="Điền mô tả sản phẩm"/>
                     </div>
                     
                     
-                    <label htmlFor="" className='mb-2'>Số bán</label>
+                    <label htmlFor="" className='mb-2'>Số lượng đã bán</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name='Sold' type="text" value={productInfo.Sold || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name='Sold' type="text" value={productInfo.Sold || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Điền số lượng đã bán"/>
                     </div>
                     
                     <label htmlFor="" className='mb-2'>Ảnh bìa</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name='Image'  type="text" value={productInfo.Image || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name='Image'  type="text" value={productInfo.Image || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Ảnh bìa..."/>
                     </div>
                     <label htmlFor="" className='mb-2'>Ảnh chi tiết</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name='Images'  type="text" value={productInfo.Images || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name='Images'  type="text" value={productInfo.Images || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Ảnh chi tiết..."/>
                     </div>
                     <label htmlFor="" className='mb-2'>Sao đánh giá</label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
-                        <input name='Rating_Star' type="text" value={productInfo.Rating_Star || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Dien ten san pham"/>
+                        <input name='Rating_Star' type="text" value={productInfo.Rating_Star || ""} onChange={(e)=>handleChangeValue(e)}   className='w-full text-black bg-transparent outline-none ' placeholder="Sao đánh giá"/>
                     </div>
                 </div>
                 <div  className='shadow-3xl footer modal-footer'>
