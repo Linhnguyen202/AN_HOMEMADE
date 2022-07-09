@@ -1,6 +1,7 @@
 import React from 'react';
 import {SwiperSlide,Swiper} from "swiper/react"
 import "swiper/css"
+import { Link } from 'react-router-dom';
 const SlideItem = [
     {
         id:1,
@@ -42,7 +43,9 @@ function Banneritem({data}){
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                    </p>
                 </div>
-                <button className="w-auto shadow-2xl px-6 py-3 md:text-xl font-medium text-white bg-[#D7A86E] rounded-lg " >Show now</button>
+                <button className="w-auto shadow-2xl px-6 py-3 md:text-xl font-medium text-white bg-[#D7A86E] rounded-lg " >
+                    <Link to="/products">Mua hàng</Link>
+                </button>
             </div>
       </div> 
     )

@@ -4,7 +4,6 @@ const AuthContext = createContext();
 function AuthProvider(props){
     const [userInfo,setUserInfo] = useState({})
     const [active,setActive] = useState(false)
-    console.log(active)
     const value = {userInfo,setUserInfo,active,setActive}
     return <AuthContext.Provider value={value} {...props}></AuthContext.Provider>
 }

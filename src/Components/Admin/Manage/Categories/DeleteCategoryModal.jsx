@@ -6,7 +6,7 @@ const DeleteCategory= ({setDeleteModal, cate_Id, searchCategory})=>{
     const DeleteCategor=()=>{
         var user = JSON.parse(sessionStorage.getItem("UserLogged"))
 
-        DeleteItem(cate_Id, user.user_name, user.token).then((success)=>{
+        DeleteItem(cate_Id, user.user_Name, user.token).then((success)=>{
             if(success > 0){
                 setDeleteModal(false)
                 searchCategory(1)

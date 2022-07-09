@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AddProducts from './AddProductsModal';
 import TableProducts from './TableProducts';
 
 const ProductsBox = ({show,setShow}) => {
-    
+    const navigate = useNavigate()
+    const user = JSON.parse(sessionStorage.getItem("UserLogged"))
+    useEffect(()=>{
+        if(!user){
+            navigate("/Admin/login")
+        }
+    },[])
     return (
         <div className="p-5 bg-gray-50">
             <div>

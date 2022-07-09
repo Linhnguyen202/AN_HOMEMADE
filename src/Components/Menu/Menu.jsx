@@ -14,7 +14,7 @@ const MenuContent = [
     {
         id:3,
         title:"AN_HOMEMADE",
-        path:""
+        path:"/products"
     }
 
 ]

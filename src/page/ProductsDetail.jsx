@@ -9,32 +9,31 @@ const ProductsDetail = () => {
     const [images,setImages] = useState()
     const [loading,setloading] = useState(false)
     useEffect(()=>{
-
-    })
-    useEffect(()=>{
         GetById(productId).then((response)=>{
             setData(JSON.parse(response.jsonData))
             setImages(JSON.parse(response.jsonData).Images.split(","))
             setloading(true)
         })
     },[])
-    console.log(data)
-    
+    const [bigImage,setBigImage] = useState()
+    const changeImage = (e)=>{
+        setBigImage(e.target.src)
+    }
     return (
         <div  className='w-full lg:max-w-[1000px] max-w-[350px] sm:max-w-[650px]  mx-auto'>
             <div className='flex flex-col justify-center p-5 border gap-x-5 md:flex-row'>
                 <div className='md:w-[60%] flex flex-col gap-2'>
                     <div className='w-full'>
                         <div className='border'>
-                        {!loading ? <LoadingSkeleton width="100%" height="350px"></LoadingSkeleton> :  <img src={`https://cf.shopee.vn/file/${data.Image}?fbclid=${data.Image}`} alt="" className='object-cover w-full h-full' /> }      
+                        {!loading ? <LoadingSkeleton width="100%" height="350px"></LoadingSkeleton> :  <img src={bigImage ? bigImage : `https://cf.shopee.vn/file/${data.Image}?fbclid=${data.Image}`} alt="" className='object-cover w-full h-full' /> }      
                         </div>
                     </div>  
                    
                     <div className='flex gap-2'>
                         {loading && images.length > 0 && images.map((item)=>{
                             return (
-                                <div className='w-full h-full border shadow-lg cursor-pointer' key={item}>
-                                     <img src={`https://cf.shopee.vn/file/${item}?fbclid=${item}`} className='flex-1 object-cover w-full'></img>
+                                <div className='w-full h-full border shadow-lg cursor-pointer' key={item} >
+                                     <img onClick={changeImage} src={`https://cf.shopee.vn/file/${item}?fbclid=${item}`} className='flex-1 object-cover w-full'></img>
                                 </div>
                             )
                         })}

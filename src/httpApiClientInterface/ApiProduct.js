@@ -27,6 +27,7 @@ export const search= async (keySearch,startRow=1,endRow=20,orderBy="")=>{
     .then(res => res.json())
     .then((data) => {
         responseSearch = data
+        console.log(data)
         return data 
     })
     .catch((e)=>{
@@ -35,9 +36,9 @@ export const search= async (keySearch,startRow=1,endRow=20,orderBy="")=>{
     })
     return responseSearch
 }
-export const DeleteItem = async (data,token)=>{
+export const DeleteItem = async (data,modified_by,token)=>{
         let _result = -1
-        await fetch(`${BaseHttpsService}/api/products/delete?id=${data.Id}`, {
+        await fetch(`${BaseHttpsService}/api/products/delete?id=${data}&modifiedBy=${modified_by}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +74,6 @@ export const getDetail = async (id,token)=>{
     return detailList
 }
 export const productItemEdit= async (data,token)=>{
-    console.log(data)
     let _result = -1
     await fetch(`${BaseHttpsService}/api/products/update`, {
         method: 'PUT',

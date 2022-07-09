@@ -9,6 +9,7 @@ import { search as searchCate } from '../../../../httpApiClientInterface/ApiCate
 import { modalConfirm } from '../../../ModalConfirm/ModalConfirm';
 import {BookOpenIcon, TrashIcon,PencilAltIcon} from "@heroicons/react/outline"
 import AddProducts from './AddProductsModal';
+import DeleteProductModal from './DeleteProductModal';
 const TableProducts = () => {
     const [totalRows,setTotalRow] = useState(0)
     const [pageCount, setPageCount] = useState(0);
@@ -18,6 +19,7 @@ const TableProducts = () => {
     //
     const [table,setTable] = useState(false)
     const [detailModal,setDetailModal] = useState(false)
+    const [deleteModal,setDeleteModal] = useState(false)
     const [editModal,setEditModal] = useState(false)
     const [tempProductInfo, setTempProductInfo] = useState({})
     const [keysearch,setKeySearch] = useState({
@@ -35,12 +37,12 @@ const TableProducts = () => {
         toRecord = pageInfor.toRecord
         let fromRecord = pageInfor._FromRecord
         let keySearch = Object.values(keysearch).join('|');
-        console.log(keySearch)
         search(keySearch,fromRecord,toRecord).then((data)=>{
             setTotalRow(data.totalRows)
             setProducts([...JSON.parse(data.jsonData)])
         })      
     }
+    
     const handleInput =(e)=>{
         setKeySearch({
             ...keysearch,
@@ -138,12 +140,13 @@ const TableProducts = () => {
                             <th className='px-6 py-4 text-sm font-medium text-gray-900'>Chức năng</th>
                         </tr>
                     </thead>
-                        <TableItems  searchProducts={searchProducts}  setTempProductInfo={setTempProductInfo} setEditModal={setEditModal} setDetailModal={setDetailModal} listData={products} ></TableItems>        
+                        <TableItems setDeleteModal={setDeleteModal}  searchProducts={searchProducts}  setTempProductInfo={setTempProductInfo} setEditModal={setEditModal} setDetailModal={setDetailModal} listData={products} ></TableItems>        
                     
                 </table>
                 {detailModal ? <DetailProducts setDetailModal={setDetailModal} tempProductInfo={tempProductInfo}></DetailProducts> : null}
                 {editModal ?  <EditProduct   searchProducts = {searchProducts} setEditModal={setEditModal} tempProductInfo={tempProductInfo} products={products} ></EditProduct> : null}
-                {table ? <AddProducts  searchProducts={searchProducts} setTable={setTable}></AddProducts> : null}           
+                {table ? <AddProducts  searchProducts={searchProducts} setTable={setTable}></AddProducts> : null}      
+                {deleteModal ? <DeleteProductModal searchProducts={searchProducts} pro_Id={tempProductInfo.Id} setDeleteModal={setDeleteModal}></DeleteProductModal> : null}                
             </div>
             <div className="p-1 m-3">
                 <ReactPaginate
@@ -163,7 +166,8 @@ const TableProducts = () => {
 };
 export default TableProducts;
 
-const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,searchProducts})=>{
+const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,searchProducts,setDeleteModal})=>{
+    console.log(listData)
     const user = JSON.parse(sessionStorage.getItem("UserLogged"))
     const token = user ? user.token : ""
     const showModalDetail=(pro_id)=>{
@@ -174,10 +178,6 @@ const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,se
 
         
     }
-    const  ProductsDelete=({index,listData,token})=>{
-        modalConfirm(DeleteItem,listData[index],token,"Xóa thành công","Xóa thất bại")
-        searchProducts(1)
-    }
     const showModalEdit = (pro_id)=>{
         GetById(pro_id).then((response)=>{
             setTempProductInfo(response.jsonData)
@@ -185,7 +185,12 @@ const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,se
         })
         
     }
-
+    const showModalDel = (pro_Id)=>{
+        setTempProductInfo({
+            Id : pro_Id
+        })
+        setDeleteModal(true)
+    }
     return (
         <>
         <tbody>
@@ -204,7 +209,7 @@ const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,se
                             <button className='text-secondColor' onClick={()=>showModalDetail(item.Id)}>
                                 <BookOpenIcon className='w-6 h-6'></BookOpenIcon>
                             </button>
-                            <button className='text-red-500' onClick={()=>ProductsDelete({index,listData,token})}>
+                            <button className='text-red-500' onClick={()=>showModalDel(item.Id)}>
                                 <TrashIcon className='w-6 h-6'></TrashIcon>
                             </button>
                             <button className='text-green-500' onClick={()=>showModalEdit(item.Id)}>         

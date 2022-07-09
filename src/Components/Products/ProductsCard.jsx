@@ -18,7 +18,7 @@ const ProductsCard = ({item}) => {
                     <span className='block text-center text-black'>{item.Price} ₫</span>
                     <span className='block text-center text-black'>Da ban:{item.Sold}</span>
                 </div>
-                 <button onClick={()=>navigate(`/products/${item.Id}`)} className='w-full py-2 text-white transition-opacity rounded-lg bg-secondColor hover:opacity-80'>Xem</button>
+                 <button onClick={()=>navigate(`/products/${item.Id}`)} className='w-full py-2 text-white transition-opacity rounded-lg bg-secondColor hover:opacity-80 flex-1'>Xem</button>
             
                
             </div>

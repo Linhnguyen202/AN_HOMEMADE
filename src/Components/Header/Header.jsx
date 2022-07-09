@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Menu from '../Menu/Menu';
 
 const Header = () => {
@@ -24,10 +24,15 @@ const Header = () => {
     })
     return (
         <div className={`top-0 z-50 text-sm transition-colors duration-300 flex items-center justify-between w-full   p-4  uppercase ${checkLocate ? "fixed text-white" : "relative text-black border bg-white mb-20"} ${scroll && location.pathname === "/" ? "bg-[#B0A171] shadow-2xl rounded-b-2xl" : "bg-transparent"}`} >
-            <div className="flex items-center gap-x-4">                 
-                <img className="w-10 h-10" src="https://lh6.googleusercontent.com/61l2cf3ve4T_XWFakbC1nMs6dCqZwO8qvoEM5Rv1iJVYKSExB7k-O-QfLCaCA5DD4wyeHuX4hR1CDuBSdyeFgYA=w16383"alt="" />
-                <h3 className='hidden text-white md:block'>AN_HOMEMADE</h3>
-            </div>
+              <Link to="/">
+                <div className="flex items-center gap-x-4">
+                
+                <img className="w-10 h-10" src="https://lh5.googleusercontent.com/OomTluav0kM4yXHqRAG3ko6f8jACYqnrsC6F0iglwb1hQwRbReCQ7IlHFZbPaXZsLV7BA1M9hqLcwg5OyMQDWU4=w16383"alt="" />
+                <h3 className='hidden  md:block'>AN_HOMEMADE</h3>
+
+              </div>
+              </Link>  
+            
             <Menu show={show} checkLocate={checkLocate} setShow={setShow}></Menu>
             <div className='block ml-3 cursor-pointer md:hidden' onClick={()=>setShow(true)}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

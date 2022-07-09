@@ -18,6 +18,7 @@ const AddProducts = ({searchProducts,setTable})=>{
         Price:0,
         Discount:0,
         Rating_Star:0,
+        Created_By:user ? user.user_Name : "",
         Sold:0,
         Stock:0,
         Image:"",
@@ -27,8 +28,6 @@ const AddProducts = ({searchProducts,setTable})=>{
 
 
     })
-  
-    console.log(productInfo)
     const  GetInfoByLink= async (e)=> {
         try{
             let user = JSON.parse(sessionStorage.getItem("UserLogged"))
@@ -89,6 +88,7 @@ const AddProducts = ({searchProducts,setTable})=>{
                 Price:arrProducts.Price * arrProducts.Discount
             }
         }
+        arrProducts.Created_By = user.user_Name
         ProductsInsert(user.token,arrProducts).then((data)=>{
             if(data>0){
                 searchProducts(1)

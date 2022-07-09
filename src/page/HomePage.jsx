@@ -17,12 +17,12 @@ const HomePage = () => {
     })
     const [products,setProducts]=useState([])
     const [newProducts,setNewProducts]=useState([])
-    const [favorProducts,setFavoNewProducts]=useState([])
     useEffect(()=>{
-        search("").then((data)=>{
-            setProducts([...JSON.parse(data.jsonData)])
-            setNewProducts([...JSON.parse(data.jsonData)])
-            setFavoNewProducts([...JSON.parse(data.jsonData)])
+        search("|||||").then((data)=>{
+            var newPro = Object.values([...JSON.parse(data.jsonData)]);
+            setProducts([...newPro])
+            setNewProducts([...newPro])
+           
         })  
     },[])
     return (
@@ -34,7 +34,7 @@ const HomePage = () => {
                 <span className='block mb-3 text-sm'>AN_HOMEMADE</span>
                 <h3 className='text-3xl font-bold mb-14 '>PICKS FOR THIS SEASON</h3>
                 <div className="grid max-w-[350px] mx-auto sm:max-w-[730px] lg:max-w-none grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
-                    {newProducts.length > 0 && newProducts.splice(1,3).map((item)=>{
+                    {newProducts.length > 0 && newProducts.slice(0,3).map((item)=>{
                         return (
                             <ProductsCard key={item.Id} item={item}></ProductsCard>
                         )
@@ -44,8 +44,8 @@ const HomePage = () => {
            
             <div className='w-full max-w-[1000px] mx-auto mb-[200px] text-center'>
                 <span className='block mb-3 text-sm'>AN_HOMEMADE</span>
-                <h3 className='text-3xl font-bold uppercase mb-14'>NEw Products</h3>
-                <ProducsNewList></ProducsNewList>
+                <h3 className='text-3xl font-bold uppercase mb-14'>New Products</h3>
+                <ProducsNewList favorProducts={newProducts}></ProducsNewList>
             </div>
             <About></About>
         </section>

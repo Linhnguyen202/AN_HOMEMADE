@@ -4,7 +4,7 @@ import {search} from '../../httpApiClientInterface/ApiProduct'
 const ProductSesionList = ({products}) => {
     return (
         <div className='md:grid md:grid-cols-4  hidden grid-cols-1 sm:grid-cols-2 mx-10 gap-y-5 lg:mx-0 lg:h-[360px] mb-20 gap-x-4'>
-        {products.length > 0 && products.splice(1,4).map((item)=>{
+        {products && products.length > 0 && products.slice(0,4).map((item)=>{
             return (
                 <ProductSesionItem key={item.Id} item={item}></ProductSesionItem>
             )

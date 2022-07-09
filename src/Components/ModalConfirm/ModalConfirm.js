@@ -10,7 +10,6 @@ export const modalConfirm = (ApiFunction,data,token,success,failed) => {
               <h1>Bạn có chắc muốn xóa trường này?</h1>
               <div>
                 <button className='btn-accept' onClick={() => {
-                    console.log(data)
                     ApiFunction(data,token).then((data)=>{
                       if(data > 0){
                         successModal(success)     

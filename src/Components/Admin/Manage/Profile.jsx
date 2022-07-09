@@ -6,7 +6,7 @@ const Profile = ({setProfile}) => {
     const navigate = useNavigate()
     const handleLogout=()=>{
         sessionStorage.clear()
-        navigate("/Admin")
+        navigate("/Admin/login")
     }
     return (
         <div className='fixed inset-0 flex items-center justify-center'>

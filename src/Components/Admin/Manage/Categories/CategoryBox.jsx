@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TableCategories from './TableCategories';
 const CategoryBox = ({show,setShow}) => {
-    
+    const navigate = useNavigate()
+    const user = JSON.parse(sessionStorage.getItem("UserLogged"))
+    useEffect(()=>{
+        if(!user){
+            navigate("/Admin/login")
+        }
+    },[])
     return (        
         <div className="p-5 bg-gray-50">
             <div>

@@ -1,25 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { search } from '../../httpApiClientInterface/ApiProduct';
 
-const ProducsNewList = () => {
-    const [keysearch,setKeySearch] = useState({
-        name:"",
-        brand:"",
-        category_id:"",
-        startus:"",
-        min_price:"",
-        max_price:""
-    })
-    const [products,setProducts]=useState([])
-    useEffect(()=>{
-        search("").then((data)=>{
-            setProducts([...JSON.parse(data.jsonData)].splice(1,6))
-        })  
-    },[])
+const ProducsNewList = ({favorProducts}) => {
+    console.log(favorProducts)
     return (
         <div className="grid max-w-[350px] mx-auto sm:max-w-[730px] lg:max-w-none grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
-          {products.length > 0 && products.map((item)=>{
+          {favorProducts.length > 0 && favorProducts.slice(0,6).map((item)=>{
                         return (
                             <ProductsNewCard key={item.Id} item={item}></ProductsNewCard>
                         )
