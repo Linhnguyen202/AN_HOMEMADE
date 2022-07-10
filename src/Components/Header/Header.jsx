@@ -27,7 +27,7 @@ const Header = () => {
               <Link to="/">
                 <div className="flex items-center gap-x-4">
                 
-                <img className="w-10 h-10" src="https://lh5.googleusercontent.com/OomTluav0kM4yXHqRAG3ko6f8jACYqnrsC6F0iglwb1hQwRbReCQ7IlHFZbPaXZsLV7BA1M9hqLcwg5OyMQDWU4=w16383"alt="" />
+                <img className="w-10 h-10" src="/Img/logo.png" alt="" />
                 <h3 className='hidden  md:block'>AN_HOMEMADE</h3>
 
               </div>

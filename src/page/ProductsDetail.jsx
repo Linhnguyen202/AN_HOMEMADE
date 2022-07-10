@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { GetById } from '../httpApiClientInterface/ApiProduct';
 import { StarIcon } from '@heroicons/react/solid'
 import LoadingSkeleton from '../Components/loading/LoadingSeleton';
@@ -19,6 +19,10 @@ const ProductsDetail = () => {
     const changeImage = (e)=>{
         setBigImage(e.target.src)
     }
+    console.log(data)
+    if(data){
+        console.log(data.URL_Item)
+    }
     return (
         <div  className='w-full lg:max-w-[1000px] max-w-[350px] sm:max-w-[650px]  mx-auto'>
             <div className='flex flex-col justify-center p-5 border gap-x-5 md:flex-row'>
@@ -33,7 +37,7 @@ const ProductsDetail = () => {
                         {loading && images.length > 0 && images.map((item)=>{
                             return (
                                 <div className='w-full h-full border shadow-lg cursor-pointer' key={item} >
-                                     <img onClick={changeImage} src={`https://cf.shopee.vn/file/${item}?fbclid=${item}`} className='flex-1 object-cover w-full'></img>
+                                     <img onClick={changeImage} src={`https://cf.shopee.vn/file/${item}?fbclid=${item}`} alt="" className='flex-1 object-cover w-full'></img>
                                 </div>
                             )
                         })}
@@ -64,7 +68,7 @@ const ProductsDetail = () => {
                         
                     </div>
                     <span className='px-3 py-5 text-xl border shadow-sm text-secondColor'>{loading ? `${data.Price} ₫` :  <LoadingSkeleton width="100%" height="20px"></LoadingSkeleton> }</span>
-                    {loading ? <button className='w-2/4 px-5 py-3 text-white rounded-md shadow-2xl mb-11 bg-secondColor'>Đặt hàng</button> : <LoadingSkeleton width="100%" height="40px" radius="6px"></LoadingSkeleton>}
+                    {loading ? <a href={data.Url_Item || ""}  className='w-2/4 px-5 py-3 text-white rounded-md shadow-2xl mb-11 bg-secondColor text-center'>Đặt hàng</a> : <LoadingSkeleton width="100%" height="40px" radius="6px"></LoadingSkeleton>}
                     
                 </div>
             </div>

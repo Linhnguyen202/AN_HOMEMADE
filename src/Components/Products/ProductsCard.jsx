@@ -16,7 +16,7 @@ const ProductsCard = ({item}) => {
                 <h3 className='mb-3  text-lg font-bold text-black truncate ...'>{item.Name}</h3>
                 <div className='flex justify-between'>
                     <span className='block text-center text-black'>{item.Price} ₫</span>
-                    <span className='block text-center text-black'>Da ban:{item.Sold}</span>
+                    <span className='block text-center text-black'>Đã bán: {item.Sold}</span>
                 </div>
                  <button onClick={()=>navigate(`/products/${item.Id}`)} className='w-full py-2 text-white transition-opacity rounded-lg bg-secondColor hover:opacity-80 flex-1'>Xem</button>
             

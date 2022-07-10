@@ -24,7 +24,8 @@ const AddProducts = ({searchProducts,setTable})=>{
         Image:"",
         Images:"",
         Caterogy_Name:"",
-        Category_Id:""
+        Category_Id:"",
+        Url_Item:""
 
 
     })
@@ -88,6 +89,7 @@ const AddProducts = ({searchProducts,setTable})=>{
                 Price:arrProducts.Price * arrProducts.Discount
             }
         }
+        arrProducts.Url_Item = linkProduct
         arrProducts.Created_By = user.user_Name
         ProductsInsert(user.token,arrProducts).then((data)=>{
             if(data>0){
