@@ -96,6 +96,7 @@ const AddProducts = ({searchProducts,setTable})=>{
             if(data>0){
                 searchProducts(1)
                 successModal("Thêm thành công")
+                setTable(false)
             }
             else{
                 failedModal("Thêm thất bại")
