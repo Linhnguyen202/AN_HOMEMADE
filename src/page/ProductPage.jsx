@@ -87,7 +87,8 @@ const ProductPage = () => {
                 {
                     setKeySearch({
                         ...keysearch,
-                        min_price:100000
+                        min_price:0,
+                        max_price:100000
                     })
                     break
                 }
@@ -104,11 +105,20 @@ const ProductPage = () => {
                     {
                         setKeySearch({
                             ...keysearch,
-                            max_price:500000
+                            min_price:500000,
+                            max_price:null
                         })
                         break
                     }
             default:
+                {
+                    setKeySearch({
+                        ...keysearch,
+                        min_price:null,
+                        max_price:null
+                    })
+                    break
+                }
         }
       }
     return (
@@ -135,6 +145,11 @@ const ProductPage = () => {
                 </select> 
                 <div className='w-full h-[1px] bg-[#eee]'></div>
                 <div className='flex flex-col gap-3'>
+                <label  className='flex items-center gap-5'>
+                        <input type="radio" name='price' value="Tất cả" onChange={(e)=>handleChangePrice(e)}/>
+                        <span>Tất cả</span>
+                    
+                    </label>
                     <label  className='flex items-center gap-5'>
                         <input type="radio" name='price' value="Dưới 100.000đ" onChange={(e)=>handleChangePrice(e)}/>
                         <span>Dưới 100.000đ</span>

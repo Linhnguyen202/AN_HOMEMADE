@@ -42,12 +42,29 @@ const TableProducts = () => {
             setProducts([...JSON.parse(data.jsonData)])
         })      
     }
-    
     const handleInput =(e)=>{
+        if(e.target.name === "category_id"){
+            if(e.target.value === "[Tất cả]"){
+                setKeySearch({
+                    ...keysearch,
+                    [e.target.name]:" "
+                })
+            }
+            else{
+                setKeySearch({
+                    ...keysearch,
+                    [e.target.name]: parseInt( e.target.options[e.target.selectedIndex].dataset.id )
+                })
+            }
+        }
+       else{
         setKeySearch({
             ...keysearch,
             [e.target.name]:e.target.value
         })
+       }
+       
+        
     }
     useEffect(()=>{       
         searchProducts(currentPage);
@@ -71,6 +88,7 @@ const TableProducts = () => {
         })      
     },[])
     const handleSubmit = (e)=>{
+       
         e.preventDefault()
         searchProducts(1)
 
@@ -89,7 +107,7 @@ const TableProducts = () => {
                 </div>
                 <div className='flex flex-row items-center gap-x-3'>
                     <span>Danh mục</span>
-                    <select name="Caterogy_Name" id="" className='p-1 border rounded-lg border-mainColor' onChange={(e)=>handleInput(e)} placeholder='--Danh mục--'>
+                    <select name="category_id" id="" className='p-1 border rounded-lg border-mainColor'  onChange={(e)=>handleInput(e)} placeholder='--Danh mục--'>
                             <option key={-1} data-id={''} >[Tất cả]</option>
                            {categoriyList && categoriyList.map((item,index)=>{
                                return (
@@ -98,14 +116,14 @@ const TableProducts = () => {
                            })}
                        </select>
                 </div>
-                <div className='flex flex-row items-center gap-x-3'>
+                {/* <div className='flex flex-row items-center gap-x-3'>
                     <span>Trạng thái</span>
                     <select name="Caterogy_Name" id="" className='p-1 border rounded-lg border-mainColor' onChange={(e)=>handleInput(e)} placeholder='--Danh mục--'>
                             <option key={-1} data-id={''} >[Tất cả]</option>
                             <option key={2} data-id={'N'} >Còn hàng</option>
                             <option key={3} data-id={'Y'} >Hết hàng</option>
                        </select>
-                </div>
+                </div> */}
                 <div className='flex flex-row items-center gap-x-3'>
                     <span>Giá từ</span>
                     <input  name="min_price"   onChange={handleInput}  type="text" placeholder='vnđ' className='p-1 border rounded-lg border-mainColor' />
@@ -167,7 +185,6 @@ const TableProducts = () => {
 export default TableProducts;
 
 const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,searchProducts,setDeleteModal})=>{
-    console.log(listData)
     const user = JSON.parse(sessionStorage.getItem("UserLogged"))
     const token = user ? user.token : ""
     const showModalDetail=(pro_id)=>{

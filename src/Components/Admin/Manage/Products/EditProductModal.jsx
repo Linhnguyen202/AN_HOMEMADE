@@ -25,6 +25,13 @@ const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
         
     }
     const  handleEditdata = ()=>{
+        if(parseFloat(data.Discount) !== 0){
+            const newPrice = parseFloat(data.Discount)*data.Price
+            setData({
+                ...data, 
+                Price:newPrice,
+                Discount:parseFloat(data.Discount)}
+        )}
         const user = JSON.parse(sessionStorage.getItem("UserLogged"))
         let arrProducts = data;
         arrProducts = Object.fromEntries(

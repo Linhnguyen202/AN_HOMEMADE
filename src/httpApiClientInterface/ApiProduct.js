@@ -22,6 +22,7 @@ export const ProductsInsert = async (token,data) => {
 }
 
 export const search= async (keySearch,startRow=1,endRow=20,orderBy="")=>{
+    console.log(`${BaseHttpsService}/api/products/search?keySearch=${keySearch}&startRow=${startRow}&endRow=${endRow}&orderBy=${orderBy}`)
     let responseSearch
     await fetch(`${BaseHttpsService}/api/products/search?keySearch=${keySearch}&startRow=${startRow}&endRow=${endRow}&orderBy=${orderBy}`)
     .then(res => res.json())

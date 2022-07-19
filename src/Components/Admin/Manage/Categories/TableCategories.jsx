@@ -143,6 +143,7 @@ const TableBody = ({listData,setTempCategoryInfo,setDetailModal,setEditModal,set
         
         setDeleteModal(true)
     }
+  
     return (
       <tbody>
           {listData && listData.length > 0 && listData.map((item,index)=>{

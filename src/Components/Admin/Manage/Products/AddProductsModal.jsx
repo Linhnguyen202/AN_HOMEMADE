@@ -23,7 +23,7 @@ const AddProducts = ({searchProducts,setTable})=>{
         Stock:0,
         Image:"",
         Images:"",
-        Caterogy_Name:"",
+        Caterogy_Name:" ",
         Category_Id:"",
         Url_Item:""
 
@@ -48,7 +48,7 @@ const AddProducts = ({searchProducts,setTable})=>{
     const handleChangeValue = (e)=>{   
      
         if(e.target.name === "Caterogy_Name"){
-
+           
             setProductInfo({  
                 ...productInfo,
                 [e.target.name] :e.target.value,
@@ -91,6 +91,7 @@ const AddProducts = ({searchProducts,setTable})=>{
         }
         arrProducts.Url_Item = linkProduct
         arrProducts.Created_By = user.user_Name
+        console.log(arrProducts)
         ProductsInsert(user.token,arrProducts).then((data)=>{
             if(data>0){
                 searchProducts(1)
@@ -129,7 +130,9 @@ const AddProducts = ({searchProducts,setTable})=>{
                     <label htmlFor="" className='mb-2'>Danh mục <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
                        <select name="Caterogy_Name" id="" className='w-full h-full bg-transparent outline-none' onChange={(e)=>handleChangeValue(e)}>
+                            <option data-id=" "></option>
                            {categoriyList && categoriyList.map((item,index)=>{
+                            
                                return (
                                    <option key={item.Id} data-id={item.Id} >{item.Name}</option>
                                )
