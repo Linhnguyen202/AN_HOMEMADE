@@ -5,7 +5,7 @@ const Footer = () => {
         <div className='py-12 bg-secondColor'>
             <div className='flex items-center flex-col justify-center w-full mx-auto md:max-w-[1000px]'>
                 <div className='flex items-center mb-10 gap-x-5'>
-                    <img className="w-10 h-10" src="https://lh5.googleusercontent.com/-zIDhfNZhvFa7bmUpA4PKw6EvjIPh4hh8_IYGa-Is6GzVJTEDMG4qKIgfyyDusGqYs9UfIAO_W0TyYaqiUiA7Ck=w16383" alt="" />
+                    <img className="w-10 h-10" src="/Img/logo.png" alt="" />
                     <h3 className='text-xl'>AN_HOMEMADE</h3>
                 </div>
                 <div className='flex items-center justify-center mb-5 gap-x-3'>

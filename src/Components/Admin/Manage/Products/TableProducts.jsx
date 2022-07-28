@@ -66,6 +66,9 @@ const TableProducts = () => {
        
         
     }
+    useEffect(()=>{
+        document.title = "Sản phẩm"
+    },[])
     useEffect(()=>{       
         searchProducts(currentPage);
     },[currentPage])
@@ -152,7 +155,6 @@ const TableProducts = () => {
                             <th className='px-6 py-4 text-sm font-medium text-gray-900'>Nguồn gốc</th>
                             <th className='px-6 py-4 text-sm font-medium text-gray-900'>Giá</th>
                             <th className='px-6 py-4 text-sm font-medium text-gray-900'>Đánh giá</th>
-                            <th className='px-6 py-4 text-sm font-medium text-gray-900'>ID Shop</th>
                             <th className='px-6 py-4 text-sm font-medium text-gray-900'>Người tạo</th>
                             <th className='px-6 py-4 text-sm font-medium text-gray-900'>Ngày tạo</th>
                             <th className='px-6 py-4 text-sm font-medium text-gray-900'>Chức năng</th>
@@ -185,6 +187,7 @@ const TableProducts = () => {
 export default TableProducts;
 
 const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,searchProducts,setDeleteModal})=>{
+    let dollarVnLocale = Intl.NumberFormat('en-VN');
     const user = JSON.parse(sessionStorage.getItem("UserLogged"))
     const token = user ? user.token : ""
     const showModalDetail=(pro_id)=>{
@@ -217,8 +220,7 @@ const TableItems = ({listData, setTempProductInfo,setDetailModal,setEditModal,se
                         <th className="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap w-18">{item.STT}</th>
                         <th className="px-6 py-4 text-sm font-light text-left text-gray-900 whitespace-nowrap w-50">{item.Name}</th>
                         <th className="px-6 py-4 text-sm font-light text-left text-gray-900 whitespace-nowrap">{item.Origin || ""}</th>
-                        <th className="px-6 py-4 text-sm font-light text-left text-gray-900 whitespace-nowrap">{item.Price}</th>
-                        <th className="px-6 py-4 text-sm font-light text-left text-gray-900 whitespace-nowrap">{item.Rating_Star}</th>
+                        <th className="px-6 py-4 text-sm font-light text-left text-gray-900 whitespace-nowrap">{dollarVnLocale.format(item.Price)}</th>
                         <th className="px-6 py-4 text-sm font-light text-left text-gray-900 whitespace-nowrap">{item.Rating_Star}</th>
                         <th className="px-6 py-4 text-sm font-light text-left text-gray-900 whitespace-nowrap">{item.Created_By}</th>
                         <th className="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">{new Date(item.Created_Date).toLocaleDateString()}</th>

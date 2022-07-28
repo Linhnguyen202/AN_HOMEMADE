@@ -44,6 +44,9 @@ const ProductPage = () => {
             setCategories([...JSON.parse(data.jsonData)])
         })
     },[])
+    useEffect(()=>{
+        document.title = "Danh sách sản phẩm"
+    },[])
     const handlePageClick = (event) => {
         const newOffset = (event.selected * recordPerpage) % totalRows;
         setItemOffset(newOffset);

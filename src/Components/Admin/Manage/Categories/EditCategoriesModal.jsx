@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { categoriesItemEdit } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 import { currentPageDefault } from '../../../../Lib/Commomdata';
+import Loading from '../../../loading/Loading';
 
 
 const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
+    const [loading,setLoading] = useState(false)
     const [data,setData] = useState(JSON.parse(category_Info))
     const handleEdit = (e)=>{
         setData({
@@ -14,6 +16,7 @@ const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
     }
 
     const handleEditApi=()=>{
+        setLoading(true)
         const user = JSON.parse(sessionStorage.getItem("UserLogged"))
        
         setData({
@@ -27,6 +30,7 @@ const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
         
         let checkEmpty = isEmptyObject(data)
         if(checkEmpty){
+            setLoading(false)
             failedModal("Hãy điền đầy đủ")
         }
         else{
@@ -40,6 +44,7 @@ const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
                         failedModal("Chỉnh sửa thất bại!")
                     }
                 })
+                setLoading(false)
         }
        
     }
@@ -69,7 +74,7 @@ const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
                 </div> 
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={handleEditApi} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>Lưu</button>
+                        <button onClick={handleEditApi} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>{loading ? <Loading></Loading> : "Lưu"}</button>
                         <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setEditModal(false)}>Quay lại</button>
                     </div>
                 </div>

@@ -25,6 +25,9 @@ const HomePage = () => {
            
         })  
     },[])
+    useEffect(()=>{
+        document.title = "ANHOMEMADE"
+    },[])
     return (
         <section className="pb-20 mb-10 movies-layout page-container">
             <div>

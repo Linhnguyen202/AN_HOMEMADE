@@ -39,6 +39,9 @@ const TableCategories = ({}) => {
             setCategories([...JSON.parse(data.jsonData )])
         })      
     }
+    useEffect(()=>{
+        document.title = "Danh mục"
+    },[])
     useEffect(()=>{     
         searchCategory(currentPage);
     },[currentPage])

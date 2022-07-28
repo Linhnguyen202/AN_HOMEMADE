@@ -7,8 +7,8 @@ const DetailProducts = ({setDetailModal,tempProductInfo}) => {
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
              <div className='absolute inset-0 bg-black bg-opacity-40'></div>
-             <div className='form-Detail  w-[800px] h-[400px] overflow-y-scroll z-50 bg-white rounded-lg shadow-2xl p-3'>
-                <div className='text-center'>
+             <div className='z-50 bg-white rounded-lg shadow-2xl form-add'>
+                <div className='text-center py-2'>
                     <h1 className='text-2xl font-bold'>Chi tiết</h1>
                 </div>
                 <div className='flex flex-col mb-3 overflow-y-scroll modal-body w-[1100px] h-[300px] p-4'>

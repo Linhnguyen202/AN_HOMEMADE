@@ -5,6 +5,7 @@ const MainAdmin = () => {
     const navigate = useNavigate()
     const user = JSON.parse(sessionStorage.getItem("UserLogged"))
     useEffect(()=>{
+        document.title = "Trang chủ"
         if(!user){
             navigate("/Admin/login")
         }

@@ -8,7 +8,7 @@
 }
 body{
     font-family: 'Roboto', sans-serif;
-    background-color: var(--main-color);
+    background-color: #f5f2da;
 }
 .banner .swiper{
     height: 100% !important;

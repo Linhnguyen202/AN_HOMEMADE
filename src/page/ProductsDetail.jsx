@@ -4,25 +4,36 @@ import { GetById } from '../httpApiClientInterface/ApiProduct';
 import { StarIcon } from '@heroicons/react/solid'
 import LoadingSkeleton from '../Components/loading/LoadingSeleton';
 const ProductsDetail = () => {
+    let dollarVnLocale = Intl.NumberFormat('en-VN');
     const { productId } = useParams()
-    const [data,setData] = useState()
+    const [data,setData] = useState({
+        Name:" "
+    })
     const [images,setImages] = useState()
     const [loading,setloading] = useState(false)
-    useEffect(()=>{
+    console.log(data.Name)
+    useEffect(()=>{       
         GetById(productId).then((response)=>{
             setData(JSON.parse(response.jsonData))
             setImages(JSON.parse(response.jsonData).Images.split(","))
             setloading(true)
+            
         })
     },[])
+    useEffect(()=>{
+        if(data.Name === " "){
+            document.title = "AHHOMEMADE"
+        }
+        else{
+            document.title = data.Name
+        }
+        
+    },[data.Name])
     const [bigImage,setBigImage] = useState()
     const changeImage = (e)=>{
         setBigImage(e.target.src)
     }
-    console.log(data)
-    if(data){
-        console.log(data.URL_Item)
-    }
+   
     return (
         <div  className='w-full lg:max-w-[1000px] max-w-[350px] sm:max-w-[650px]  mx-auto'>
             <div className='flex flex-col justify-center p-5 border gap-x-5 md:flex-row'>
@@ -67,8 +78,9 @@ const ProductsDetail = () => {
                          :  <LoadingSkeleton width="100%" height="20px"></LoadingSkeleton>}
                         
                     </div>
-                    <span className='px-3 py-5 text-xl border shadow-sm text-secondColor'>{loading ? `${data.Price} ₫` :  <LoadingSkeleton width="100%" height="20px"></LoadingSkeleton> }</span>
-                    {loading ? <a href={data.Url_Item || ""}  className='w-2/4 px-5 py-3 text-white rounded-md shadow-2xl mb-11 bg-secondColor text-center'>Đặt hàng</a> : <LoadingSkeleton width="100%" height="40px" radius="6px"></LoadingSkeleton>}
+                    <span className='px-3 py-5 text-xl border shadow-sm text-secondColor'>{loading ? `${dollarVnLocale.format(data.Price)} ₫` :  <LoadingSkeleton width="100%" height="20px"></LoadingSkeleton> }</span>
+                    {loading ? <a href={data.Url_Item || ""}  className='w-2/4 px-5 py-3 flex items-center  text-white rounded-md shadow-2xl mb-11 bg-secondColor text-center'>
+                    <img className='w-1/4' src="/Img/logo-shopee.png"></img><span className='block flex-1 text-xl text-center'>Đặt hàng</span></a> : <LoadingSkeleton width="100%" height="40px" radius="6px"></LoadingSkeleton>}
                     
                 </div>
             </div>

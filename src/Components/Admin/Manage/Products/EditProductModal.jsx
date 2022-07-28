@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { productItemEdit } from '../../../../httpApiClientInterface/ApiProduct';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
 import { failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
+import Loading from '../../../loading/Loading';
 
 const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
+    const [loading,setLoading] = useState(false)
     const [data,setData] = useState(JSON.parse(tempProductInfo))
     const [categoriyList,setCategoryList] = useState()
     const handleEditProducts = (e)=>{        
@@ -25,6 +27,7 @@ const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
         
     }
     const  handleEditdata = ()=>{
+        setLoading(true)
         if(parseFloat(data.Discount) !== 0){
             const newPrice = parseFloat(data.Discount)*data.Price
             setData({
@@ -43,7 +46,6 @@ const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
                 })
             })
         )
-        console.log(arrProducts)
         productItemEdit(arrProducts,user.token).then((success)=>{
             console.log(success)
             if(success > 0)
@@ -51,8 +53,10 @@ const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
                successModal("Cập nhật sản phẩm thành công! ")
                 setEditModal(false)
                 searchProducts(1)
+                setLoading(false)
             }else{
                 failedModal("Cập nhật sản phẩm không thành công!")
+                setLoading(false)
             }
         })
     } 
@@ -126,7 +130,7 @@ const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
                 </div>
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={handleEditdata} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>Lưu</button>
+                        <button onClick={handleEditdata} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>{loading ? <Loading></Loading> : "Lưu"}</button>
                         <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setEditModal(false)}>Quay lại</button>
                     </div>
                 </div>

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { CategoriesInsert } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
 import { currentPageDefault } from '../../../../Lib/Commomdata';
+import Loading from '../../../loading/Loading';
 
 const AddCategories= ({setmodalAddCate, searchCategory})=>{
+    const [loading,setLoading] = useState(false)
     const user = JSON.parse(sessionStorage.getItem("UserLogged")) || ""
     const [data,setData] = useState({
         name:"",
@@ -21,6 +23,7 @@ const AddCategories= ({setmodalAddCate, searchCategory})=>{
         })
     }
     const handleSubmit=()=>{
+        setLoading(true)
         var user = JSON.parse(sessionStorage.getItem("UserLogged"))
         const isEmptyObject = (obj) => {
             return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -28,8 +31,9 @@ const AddCategories= ({setmodalAddCate, searchCategory})=>{
         let checkEmpty = isEmptyObject(data)
         if(checkEmpty){
             failedModal("Hãy điền đầy đủ")
+            setLoading(false)
         }
-        else{
+        else{ 
             CategoriesInsert(data,user.token).then((data)=>{
                 if(data>0){
                     successModal("Thêm thành công")
@@ -40,6 +44,7 @@ const AddCategories= ({setmodalAddCate, searchCategory})=>{
                     failedModal("Thêm thất bại")
                 }
             })
+            setLoading(false)
         }
         
     }
@@ -68,7 +73,7 @@ const AddCategories= ({setmodalAddCate, searchCategory})=>{
                 </div> 
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={handleSubmit} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>Thêm</button>
+                        <button onClick={handleSubmit} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>{loading ? <Loading></Loading> : "Thêm"}</button>
                         <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setmodalAddCate(false)}>Quay lại</button>
                     </div>
                 </div>

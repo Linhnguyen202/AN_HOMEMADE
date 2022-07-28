@@ -4,9 +4,12 @@ import { GetDetailByIdItemIdshop } from '../../../../httpApiClientInterface/ApiS
 import { ProductsInsert, search } from '../../../../httpApiClientInterface/ApiProduct';
 import { search as searchCate } from '../../../../httpApiClientInterface/ApiCategories';
 import {  failedModal, successModal } from '../../../ModalConfirm/ModalAlert';
+import Loading from '../../../loading/Loading';
 
 
 const AddProducts = ({searchProducts,setTable})=>{
+    const [loading,setLoading] = useState(false)
+    const [loadingAdd,setLoadingAdd] = useState(false)
     const user = JSON.parse(sessionStorage.getItem("UserLogged"))
     const [categoriyList,setCategoryList] = useState()
   
@@ -30,10 +33,12 @@ const AddProducts = ({searchProducts,setTable})=>{
 
     })
     const  GetInfoByLink= async (e)=> {
+        setLoading(true)
         try{
             let user = JSON.parse(sessionStorage.getItem("UserLogged"))
             if(linkProduct === ""){
                 failedModal("Lấy sản phẩm thất bại")
+                setLoading(false)
                 return
             }
             var idFromLink = GetIdByLinkShopee(linkProduct);
@@ -41,7 +46,9 @@ const AddProducts = ({searchProducts,setTable})=>{
                 setProductInfo(JSON.parse(data.success))
                 successModal("Lấy sản phẩm thành công")
             })
+            setLoading(false)
         }catch(err){
+            setLoading(false)
             console.log(err)
         }
     }
@@ -73,6 +80,7 @@ const AddProducts = ({searchProducts,setTable})=>{
        
     }
     const handleAdddata = ()=>{
+        setLoadingAdd(true)
         let arrProducts = productInfo;
         arrProducts =Object.fromEntries(
             Object.entries(arrProducts).map((item)=>{
@@ -97,9 +105,11 @@ const AddProducts = ({searchProducts,setTable})=>{
                 searchProducts(1)
                 successModal("Thêm thành công")
                 setTable(false)
+                setLoadingAdd(false)
             }
             else{
                 failedModal("Thêm thất bại")
+                setLoadingAdd(false)
             }
         })
        
@@ -126,7 +136,7 @@ const AddProducts = ({searchProducts,setTable})=>{
                         <div className='flex-1 px-2 py-3 bg-gray-200 rounded-md'>
                             <input type="text" onChange={(e)=>setlinkProduct(e.target.value)}  name="Name"  className='w-full text-black bg-transparent outline-none ' placeholder="Điền link sản phẩm"/>                  
                         </div>
-                        <button onClick={GetInfoByLink} className='right-0 px-5 py-3 text-white border rounded-lg bg-[#32CD32]'>Lấy thông tin</button>
+                        <button onClick={GetInfoByLink} className='right-0 px-5 py-3 text-white border rounded-lg bg-[#32CD32]'>{loading ? <Loading></Loading> : "Lấy thông tin"}</button>
                     </div>
                     <label htmlFor="" className='mb-2'>Danh mục <span className='text-red-600 '>(*)</span></label>
                     <div className='px-2 py-3 bg-gray-200 rounded-md'>
@@ -191,7 +201,7 @@ const AddProducts = ({searchProducts,setTable})=>{
                 </div>
                 <div  className='shadow-3xl footer modal-footer'>
                     <div className='p-2 text-right'>
-                        <button onClick={handleAdddata} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>Thêm</button>
+                        <button onClick={handleAdddata} className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]'>{loadingAdd ? <Loading></Loading> : "Thêm"}</button>
                         <button className='right-0 px-5 py-2 mr-1 text-white border rounded-lg bg-[#32CD32]' onClick={()=>setTable(false)}>Quay lại</button>
                     </div>
                 </div>
