@@ -23,6 +23,10 @@ const AddCategories= ({setmodalAddCate, searchCategory})=>{
         })
     }
     const handleSubmit=()=>{
+        if(data.name === "" || data.note === ""){
+            failedModal("Điền thông tin vào các trường ")
+            return
+        }
         setLoading(true)
         var user = JSON.parse(sessionStorage.getItem("UserLogged"))
         const isEmptyObject = (obj) => {

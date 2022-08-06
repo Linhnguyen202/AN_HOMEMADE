@@ -36,6 +36,7 @@ const AddProducts = ({searchProducts,setTable})=>{
         setLoading(true)
         try{
             let user = JSON.parse(sessionStorage.getItem("UserLogged"))
+            let products
             if(linkProduct === ""){
                 failedModal("Lấy sản phẩm thất bại")
                 setLoading(false)
@@ -43,13 +44,20 @@ const AddProducts = ({searchProducts,setTable})=>{
             }
             var idFromLink = GetIdByLinkShopee(linkProduct);
             await GetDetailByIdItemIdshop(user.token ,idFromLink.itemId, idFromLink.shopId).then((data)=>{
-                setProductInfo(JSON.parse(data.success))
-                successModal("Lấy sản phẩm thành công")
+                products = JSON.parse(data.success)
+                if(products.Name === null && products.Id === 0){
+                    failedModal("Lấy sản phẩm thất bại")
+                }
+                else{
+                    setProductInfo(products)
+                    successModal("Lấy sản phẩm thành công")
+                }
+               
             })
             setLoading(false)
         }catch(err){
             setLoading(false)
-            console.log(err)
+           
         }
     }
     const handleChangeValue = (e)=>{   
@@ -80,6 +88,10 @@ const AddProducts = ({searchProducts,setTable})=>{
        
     }
     const handleAdddata = ()=>{
+        if(productInfo.Origin === null || productInfo.Caterogy_Name === null  || productInfo.Brand=== null){
+            failedModal("Điền thông tin vào các trường ")
+            return
+        }
         setLoadingAdd(true)
         let arrProducts = productInfo;
         arrProducts =Object.fromEntries(
@@ -99,7 +111,6 @@ const AddProducts = ({searchProducts,setTable})=>{
         }
         arrProducts.Url_Item = linkProduct
         arrProducts.Created_By = user.user_Name
-        console.log(arrProducts)
         ProductsInsert(user.token,arrProducts).then((data)=>{
             if(data>0){
                 searchProducts(1)

@@ -16,6 +16,10 @@ const EditCategories = ({setEditModal,category_Info,searchCategory}) => {
     }
 
     const handleEditApi=()=>{
+        if(data.name === "" || data.note === ""){
+            failedModal("Điền thông tin vào các trường ")
+            return
+        }
         setLoading(true)
         const user = JSON.parse(sessionStorage.getItem("UserLogged"))
        

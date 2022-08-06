@@ -27,6 +27,10 @@ const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
         
     }
     const  handleEditdata = ()=>{
+        if(data.Origin === null || data.Caterogy_Name === null ||  data.Brand === null){
+            failedModal("Điền thông tin vào các trường ")
+            return
+        }
         setLoading(true)
         if(parseFloat(data.Discount) !== 0){
             const newPrice = parseFloat(data.Discount)*data.Price
@@ -47,7 +51,6 @@ const EditProduct = ({setEditModal,tempProductInfo,searchProducts}) => {
             })
         )
         productItemEdit(arrProducts,user.token).then((success)=>{
-            console.log(success)
             if(success > 0)
             {
                successModal("Cập nhật sản phẩm thành công! ")
